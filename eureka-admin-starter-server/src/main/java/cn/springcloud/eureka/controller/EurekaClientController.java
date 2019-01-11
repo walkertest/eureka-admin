@@ -68,6 +68,9 @@ public class EurekaClientController {
 	}
 	
 	/**
+	 * Take instance out of service	PUT /eureka/v2/apps/appID/instanceID/status?value=OUT_OF_SERVICE	HTTP Code:
+	 * * 200 on success
+	 * * 500 on failure
 	 * @description 界面请求转到第三方服务进行状态变更
 	 */
 	@RequestMapping(value = "status/{appName}", method = RequestMethod.POST)

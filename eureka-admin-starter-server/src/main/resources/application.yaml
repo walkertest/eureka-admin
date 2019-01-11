@@ -1,5 +1,6 @@
 server:
-  port: 8080
+  port: 8010
+
 eureka:
   server: 
     eviction-interval-timer-in-ms: 30000
@@ -8,7 +9,14 @@ eureka:
     fetch-registry: true
     filterOnlyUpInstances: false
     serviceUrl:
-       defaultZone: http://localhost:9500/eureka/
+       defaultZone: http://inner-ek1.huyaudb.com:9500/eureka/
+
+spring:
+     project:
+         name: huyapassport
+     application:
+         name: eureka-admin-serv
+
 logging:
   level:
     com:
