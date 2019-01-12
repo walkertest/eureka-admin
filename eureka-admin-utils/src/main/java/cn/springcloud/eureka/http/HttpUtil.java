@@ -38,6 +38,8 @@ public class HttpUtil {
 	
 	public static final String GET  = "GET";
 	public static final String POST = "POST";
+	public static final String PUT = "PUT";
+	public static final String DELETE = "DELETE";
 	public static final String CHARSET = "UTF-8";
 	
 	private HttpUtil() {}
@@ -93,7 +95,11 @@ public class HttpUtil {
 		
 		conn.setConnectTimeout(19000);
 		conn.setReadTimeout(19000);
-		conn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+		if(method.equalsIgnoreCase("PUT")) {
+			conn.setRequestProperty("Content-Type","application/xml");
+		} else {
+			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		}
 		conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36");
 		
 		if (headers != null && !headers.isEmpty())
@@ -151,6 +157,61 @@ public class HttpUtil {
 			out.flush();
 			out.close();
 			
+			return readResponseString(conn, charset);
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		finally {
+			if (conn != null) {
+				conn.disconnect();
+			}
+		}
+	}
+
+	/**
+
+	 * 发送 PUT 请求
+	 * 考虑添加一个参数 Map<String, String> queryParas： getHttpConnection(buildUrl(url, queryParas), POST, headers);
+	 */
+	public static String put(String url, Map<String, String> queryParas, String data, Map<String, String> headers, String charset) {
+		logger.info("post url:" + url);
+		logger.info("params:" + JSON.toJSONString(queryParas));
+		logger.info("data:" + data);
+		HttpURLConnection conn = null;
+		try {
+			conn = getHttpConnection(buildUrlWithQueryString(url, queryParas, charset), PUT, headers);
+			conn.connect();
+			OutputStream out = conn.getOutputStream();
+//			out.write(data.getBytes(charset));
+			out.flush();
+			out.close();
+
+			return readResponseString(conn, charset);
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		finally {
+			if (conn != null) {
+				conn.disconnect();
+			}
+		}
+	}
+
+	public static String delete(String url, Map<String, String> queryParas, String data, Map<String, String> headers, String charset) {
+		logger.info("post url:" + url);
+		logger.info("params:" + JSON.toJSONString(queryParas));
+		logger.info("data:" + data);
+		HttpURLConnection conn = null;
+		try {
+			conn = getHttpConnection(buildUrlWithQueryString(url, queryParas, charset), DELETE, headers);
+			conn.connect();
+			OutputStream out = conn.getOutputStream();
+//			out.write(data.getBytes(charset));
+			out.flush();
+			out.close();
+
 			return readResponseString(conn, charset);
 		}
 		catch (Exception e) {

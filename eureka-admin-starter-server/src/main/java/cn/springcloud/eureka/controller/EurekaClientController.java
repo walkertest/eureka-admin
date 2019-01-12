@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +23,11 @@ import cn.springcloud.eureka.http.HttpUtil;
 
 @RestController
 @RequestMapping("eureka")
+@Slf4j
 public class EurekaClientController {
+
+	@Value("${eureka.client.serviceUrl.defaultZone}")
+	String defaultZone;
 
 	@Resource
 	private EurekaClient eurekaClient;
@@ -71,30 +78,46 @@ public class EurekaClientController {
 	 * Take instance out of service	PUT /eureka/v2/apps/appID/instanceID/status?value=OUT_OF_SERVICE	HTTP Code:
 	 * * 200 on success
 	 * * 500 on failure
+	 * DELETE /eureka/v2/apps/appID/instanceID/status?value=UP (The value=UP is optional, it is used as a suggestion for the fallback status due to removal of the override)
 	 * @description 界面请求转到第三方服务进行状态变更
 	 */
+//	@RequestMapping(value = "status/{appName}", method = RequestMethod.POST)
+//	public ResultMap status(@PathVariable String appName, String instanceId, String status){
+//		Application application = eurekaClient.getApplication(appName);
+//		InstanceInfo instanceInfo = application.getByInstanceId(instanceId);
+//		instanceInfo.setStatus(InstanceStatus.toEnum(status));
+//		Map<String, String> headers = new HashMap<>();
+//		headers.put("Content-Type", "text/plain");
+//		HttpUtil.post(instanceInfo.getHomePageUrl() + "service-registry/instance-status", status, headers);
+//
+//		return ResultMap.buildSuccess();
+//	}
+
+
+	//curl -v -X DELETE "127.0.0.1:9500/eureka/apps/CLIENT-A/192.168.1.101:client-a:7070/status?value=UP"
+	//curl -v -X PUT "127.0.0.1:9500/eureka/apps/CLIENT-A/192.168.1.101:client-a:7070/status?value=OUT_OF_SERVICE"
 	@RequestMapping(value = "status/{appName}", method = RequestMethod.POST)
-	public ResultMap status(@PathVariable String appName, String instanceId, String status){
-		Application application = eurekaClient.getApplication(appName);
-		InstanceInfo instanceInfo = application.getByInstanceId(instanceId);
-		instanceInfo.setStatus(InstanceStatus.toEnum(status));
-		Map<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "text/plain");
-//		HttpUtil.post(instanceInfo.getHomePageUrl() + "eureka-admin-client/status", "status=" + status);
-		HttpUtil.post(instanceInfo.getHomePageUrl() + "service-registry/instance-status", status, headers);
-		
-//		List<InstanceInfo> instanceInfos = application.getInstances();
-//		for(InstanceInfo item : instanceInfos){
-//			HttpUtil.post(item.getHomePageUrl() + "eureka-admin-client/status/" + appName, "instanceId=" + instanceId + "&status=" + status);
-//		}
-//		Set<String> regions = eurekaClient.getAllKnownRegions();
-//		for(String region : regions){
-//			Applications applications = eurekaClient.getApplicationsForARegion(region);
-//			List<Application> apps = applications.getRegisteredApplications();
-//			for(Application app : apps){
-//				eurekaClient.getApplications().addApplication(app);
-//			}
-//		}
+	public ResultMap servStatus(@PathVariable String appName, String instanceId, String status){
+		log.info("appName:{} instanceId:{} status:{} defaultZone:{}",
+				new Object[] {appName, instanceId, status,defaultZone});
+
+		//拼凑url
+		String url= defaultZone;
+		String outOfServiceUrl = defaultZone + "apps/%s/%s/status?value=OUT_OF_SERVICE";
+		String upUrl = defaultZone + "apps/%s/%s/status?value=UP";
+
+		if(status.equalsIgnoreCase("UP")) {
+			//curl -v -X DELETE "127.0.0.1:9500/eureka/apps/CLIENT-A/192.168.1.101:client-a:7070/status?value=UP"
+			upUrl = String.format(upUrl, appName, instanceId);
+			HttpUtil.delete(upUrl, null, null, null, "UTF-8");
+		} else if(status.equalsIgnoreCase("OUT_OF_SERVICE")) {
+			outOfServiceUrl = String.format(outOfServiceUrl,appName,instanceId);
+			//curl -v -X PUT "127.0.0.1:9500/eureka/apps/CLIENT-A/192.168.1.101:client-a:7070/status?value=OUT_OF_SERVICE"
+			HttpUtil.put(outOfServiceUrl,null,null,null,"UTF-8");
+		}
+
+
+
 		return ResultMap.buildSuccess();
 	}
 }
