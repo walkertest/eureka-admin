@@ -32,10 +32,11 @@ logging:
 # udb config
 * host配置
 ```
+# eureka_admin
 127.0.0.1 inner-ek1.huyaudb.com
 127.0.0.1 udb-eureka-dev.huya.com
 52.76.23.145  udb-eureka-test.nimo.tv
-18.136.53.127 udb-eureka.nimo.tv
+52.220.61.136 udb-eureka.nimo.tv
 221.228.194.15 udb-eureka-wx.huya.com
 14.116.174.67  udb-eureka-sz.huya.com
 ```
@@ -45,4 +46,5 @@ logging:
 ```
 wx机房的eureka管理：udb-eureka-wx.huya.com:8010
 sz机房的eureka管理: udb-eureka-sz.huya.com:8010
+海外nimo的eureka管理：udb-eureka.nimo.tv
 ```
