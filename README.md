@@ -25,5 +25,24 @@ logging:
 正常启动主类即可，浏览器访问：http://localhost:8080 ，效果如下，
     
 
-![image](https://github.com/SpringCloud/eureka-admin/blob/master/eureka-admin-sample/eureka-admin-sample-eureka-server/img/Dashboard.png)
-![image](https://github.com/SpringCloud/eureka-admin/blob/master/eureka-admin-sample/eureka-admin-sample-eureka-server/img/Admin.png)
+![image](https://raw.githubusercontent.com/SpringCloud/eureka-admin/master/eureka-admin-sample/eureka-admin-sample-eureka-server/img/Dashboard.png)
+![image](https://raw.githubusercontent.com/SpringCloud/eureka-admin/master/eureka-admin-sample/eureka-admin-sample-eureka-server/img/Admin.png)
+
+
+# udb config
+* host配置
+```
+127.0.0.1 inner-ek1.huyaudb.com
+127.0.0.1 udb-eureka-dev.huya.com
+52.76.23.145  udb-eureka-test.nimo.tv
+18.136.53.127 udb-eureka.nimo.tv
+221.228.194.15 udb-eureka-wx.huya.com
+14.116.174.67  udb-eureka-sz.huya.com
+```
+
+*访问
+域名带上端口号，8010即可,比如：
+```
+wx机房的eureka管理：udb-eureka-wx.huya.com:8010
+sz机房的eureka管理: udb-eureka-sz.huya.com:8010
+```
