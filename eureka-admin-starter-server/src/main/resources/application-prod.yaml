@@ -9,7 +9,7 @@ eureka:
     fetch-registry: true
     filterOnlyUpInstances: false
     serviceUrl:
-       defaultZone: http://inner-ek1.huyaudb.com:9500/eureka/
+       defaultZone: http://inner-eureka-gz1.huyaudb.com.local.udb.hy:9500/eureka/
 
 spring:
      project:
@@ -23,3 +23,19 @@ logging:
       itopener: DEBUG
     org:
       springframework: INFO
+
+
+---
+spring.profiles.active: zh-gz
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://inner-eureka-gz1.huyaudb.com.local.udb.hy:9500/eureka/
+
+
+---
+spring.profiles.active: zh-wx
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://inner-eureka-wx1.huyaudb.com.local.udb.hy:9500/eureka/
