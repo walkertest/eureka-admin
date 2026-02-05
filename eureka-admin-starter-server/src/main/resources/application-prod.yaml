@@ -26,7 +26,7 @@ logging:
 
 
 ---
-spring.profiles.active: zh-gz
+spring.profiles: zh-gz
 eureka:
   client:
     serviceUrl:
@@ -34,7 +34,7 @@ eureka:
 
 
 ---
-spring.profiles.active: zh-wx
+spring.profiles: zh-wx
 eureka:
   client:
     serviceUrl:
