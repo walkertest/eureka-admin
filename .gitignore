@@ -1,4 +1,4 @@
-.idea/*
+*.idea
 *.iml
 eureka-admin-starter-server/target/*
 eureka-admin-utils/target/*
