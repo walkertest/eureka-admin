@@ -1,14 +1,15 @@
 package cn.springcloud.eureka.controller;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import cn.springcloud.eureka.constant.Constants;
+import cn.springcloud.eureka.service.EurekaService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,23 +22,33 @@ import com.netflix.discovery.shared.Application;
 import cn.springcloud.eureka.ResultMap;
 import cn.springcloud.eureka.http.HttpUtil;
 
+/**
+ * 功能：
+ * 1. 导航页，获取服务数量、节点数量等；
+ * 2. 具体服务的展示与管理操作
+ */
 @RestController
 @RequestMapping("eureka")
 @Slf4j
 public class EurekaClientController {
 
-	@Value("${eureka.client.serviceUrl.defaultZone}")
+	@Value("${eureka.client.serviceUrl.defaultZone:}")
 	String defaultZone;
 
-	@Resource
-	private EurekaClient eurekaClient;
+//	@Resource
+//	private EurekaClient eurekaClient;
+
+    @Autowired
+    EurekaService eurekaService;
 	
 	/**
 	 * @description 获取服务数量和节点数量
 	 */
 	@RequestMapping(value = "home", method = RequestMethod.GET)
-	public ResultMap home(){
-		List<Application> apps = eurekaClient.getApplications().getRegisteredApplications();
+	public ResultMap home(HttpServletRequest httpServletRequest){
+        String cluster = eurekaService.getCluster(httpServletRequest);
+        log.info("home req start defaultZone:{} cluster:{}", defaultZone, cluster);
+		List<Application> apps = eurekaService.getClusterInfo(cluster);
 		int appCount = apps.size();
 		int nodeCount = 0;
 		int enableNodeCount = 0;
@@ -57,24 +68,15 @@ public class EurekaClientController {
 	 * @description 获取所有服务节点
 	 */
 	@RequestMapping(value = "apps", method = RequestMethod.GET)
-	public ResultMap apps(){
-		List<Application> apps = eurekaClient.getApplications().getRegisteredApplications();
-		Collections.sort(apps, new Comparator<Application>() {
-	        public int compare(Application l, Application r) {
-	            return l.getName().compareTo(r.getName());
-	        }
-	    });
-		for(Application app : apps){
-			Collections.sort(app.getInstances(), new Comparator<InstanceInfo>() {
-		        public int compare(InstanceInfo l, InstanceInfo r) {
-		            return l.getPort() - r.getPort();
-		        }
-		    });
-		}
+	public ResultMap apps(HttpServletRequest httpServletRequest){
+        String cluster = eurekaService.getCluster(httpServletRequest);
+        log.info("apps req start defaultZone:{} cluster:{}", defaultZone, cluster);
+		List<Application> apps = eurekaService.getClusterInfo(cluster);
 		return ResultMap.buildSuccess().put("list", apps);
 	}
-	
-	/**
+
+
+    /**
 	 * Take instance out of service	PUT /eureka/v2/apps/appID/instanceID/status?value=OUT_OF_SERVICE	HTTP Code:
 	 * * 200 on success
 	 * * 500 on failure

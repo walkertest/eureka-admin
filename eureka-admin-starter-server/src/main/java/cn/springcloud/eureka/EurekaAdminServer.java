@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
 
-@EnableEurekaClient
+//@EnableEurekaClient
 @SpringBootApplication
 public class EurekaAdminServer {
 

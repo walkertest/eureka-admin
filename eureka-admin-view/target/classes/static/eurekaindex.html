@@ -31,11 +31,11 @@
 		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
 			<li class="am-dropdown" data-am-dropdown>
 				<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-					<span class="am-icon-cog"></span> 集群选择 <span class="am-icon-caret-down"></span>
+					<span class="am-icon-cog"></span> 集群： <span id="currentCluster" style="margin-left:10px;color:green;"></span> <span class="am-icon-caret-down"></span>
 				</a>
 				<ul class="am-dropdown-content">
-					<li><a href="javascript:void(0);" onclick="selectEnv('zhixu')">秩序测试环境</a></li>
-					<li><a href="javascript:void(0);" onclick="selectEnv('passport')">账号测试环境</a></li>
+					<li><a href="javascript:void(0);" onclick="selectCluster('zhixu')">秩序测试环境</a></li>
+					<li><a href="javascript:void(0);" onclick="selectCluster('passport')">账号测试环境</a></li>
 				</ul>
 			</li>
 		</ul>
@@ -52,7 +52,7 @@
 		<div class="admin-content-body" id="contentBody"></div>
 		<footer class="admin-content-footer am-text-center" id="footer">
 			<hr class="am-margin-0">
-			<p class="am-padding-left am-margin-xs">©2015-2018 www.springcloud.cn All Rights Reserved</p>
+			<p class="am-padding-left am-margin-xs">©2015-2099 www.springcloud.cn All Rights Reserved</p>
 		</footer>
 	</div>
 	<!-- content end -->
@@ -77,16 +77,19 @@
 <script src="./res/jquery-form/jquery-form-v3.51.0.js"></script>
 <script>
 	(function(){
+
+
 		var menus = [{
 			name: 'Dashboard',
 			icon: 'fa-tachometer',
 			url: 'views/home.html'
 		},{
-			name: 'Service Admin',
+			name: 'ServiceAdmin',
 			icon: 'fa-tachometer',
 			url: 'views/services.html'
 		}];
 
+		//加载sidebar菜单
 		function renderMenu(menus, ele){
 			var li = '<li><a href="javascript:void(0);" data-url="{{url}}"><span class="{{icon}}"></span>{{name}}</a></li>';
 			var liParent = '<li class="admin-parent"><a class="am-cf" data-am-collapse="{target: \'#collapse-nav{{name}}\'}">'
@@ -107,13 +110,68 @@
 			}
 		}
 
-		function selectEnv(cluster) {
-			layer.msg('已选择环境：' + cluster);
-			console.log("选择环境：" + cluster);
-			// 这里可以根据需要切换环境的逻辑
+		// 显示当前集群
+		const clusterNames = {
+			zhixu: '秩序测试环境',
+			passport: '账号测试环境'
+		};
+		const cluster = getCookie('eureka_cluster');
+		if (cluster && clusterNames[cluster]) {
+			document.getElementById('currentCluster').textContent = clusterNames[cluster];
 		}
 
-		window.selectEnv = selectEnv;
+		function selectCluster(cluster) {
+			const name = clusterNames[cluster]
+			//选择环境之后，更新cookie保存的集群信息，后续默认使用这个环境
+			console.log("选择环境：" + cluster);
+			//帮我把cluster更新进cookie字段中，cookie key为 eureka_cluster
+			setCookie("eureka_cluster", cluster, 1);
+
+			document.getElementById('currentCluster').textContent = name;
+			// 关闭下拉菜单
+			$('.am-dropdown').removeClass('am-active');
+
+			// 判断当前页面是否为 home.html
+			if (window.location.hash.includes('home.html')) {
+				$.ajax({
+					url: 'views/home.html',
+					dataType: 'html',
+					cache: false,
+					success: function(data){
+						$('#contentBody').html(data);
+					}
+				});
+			} else {
+				location.reload();
+			}
+
+			// 刷新当前页面
+			// location.reload();
+
+			//调用刷新接口
+			// 判断当前页面是否为 services.html
+			// if ($('#contentBody').find('[data-page="services"]').length > 0) {
+			// 	if (typeof query === 'function') {
+			// 		query();
+			// 	}
+			// }
+
+		}
+		window.selectCluster = selectCluster;
+
+		function  setCookie(name, value) {
+			const Days = 30;
+			const exp = new Date();
+			exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+			var expires = "; expires=" + exp.toUTCString();
+			document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
+		}
+
+		// 读取 cookie 工具函数
+		function getCookie(name) {
+			const arr = document.cookie.match(new RegExp('(^| )' + name + '=([^;]*)(;|$)'));
+			return arr ? decodeURIComponent(arr[2]) : null;
+		}
 
 		//绑定菜单点击事件
 		$('#sidebarList').on('click', 'a[data-url]', function(){
@@ -131,8 +189,12 @@
 				}
 			});
 			$('#breadcrumbs').text($(this).text());
+
+			// 设置 hash
+			window.location.hash = url;
 		});
 
+		//页面加载逻辑，加载sidebarList以及功能页
 		$(function(){
 			$('#sidebarList').css('height', $(window).height() - 36);
 			$(window).resize(function() {
@@ -140,8 +202,24 @@
 			});
 			$('#sidebarList').empty();
 			renderMenu(menus);
-			//默认加载第一个菜单页面
-			$('#sidebarList a[data-url]:first').trigger('click');
+			//默认加载service-admin页面，如果location hash中有地址匹配的话，加载对应的页面
+			if(window.location.hash && window.location.hash.length > 1){
+				var hash = window.location.hash.substring(1);
+				var matched = false;
+				$('#sidebarList a[data-url]').each(function(){
+					if($(this).data('url').includes(hash)){
+						$(this).trigger('click');
+						matched = true;
+						return false;
+					}
+				});
+				if(matched){
+					return ;
+				}
+			}
+			$('#sidebarList a[data-url]').filter(function() {
+				return $(this).text().trim() === 'ServiceAdmin';
+			}).first().trigger('click');
 		});
 	})();
 </script>

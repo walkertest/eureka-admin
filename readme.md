@@ -3,4 +3,4 @@
 
 
 # 使用
-- http://127.0.0.1:8082/
+- 本地访问：http://127.0.0.1:8082/ 或者：http://eureka-local.huya.info:8082/eurekaindex.html
