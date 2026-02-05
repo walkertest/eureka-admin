@@ -1,12 +1,9 @@
 package cn.springcloud.eureka.controller;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import cn.springcloud.eureka.constant.Constants;
 import cn.springcloud.eureka.service.EurekaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.appinfo.InstanceInfo.InstanceStatus;
-import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
 import cn.springcloud.eureka.ResultMap;
 import cn.springcloud.eureka.http.HttpUtil;
@@ -30,13 +26,7 @@ import cn.springcloud.eureka.http.HttpUtil;
 @RestController
 @RequestMapping("eureka")
 @Slf4j
-public class EurekaClientController {
-
-	@Value("${eureka.client.serviceUrl.defaultZone:}")
-	String defaultZone;
-
-//	@Resource
-//	private EurekaClient eurekaClient;
+public class EurekaAdminController {
 
     @Autowired
     EurekaService eurekaService;
@@ -47,7 +37,7 @@ public class EurekaClientController {
 	@RequestMapping(value = "home", method = RequestMethod.GET)
 	public ResultMap home(HttpServletRequest httpServletRequest){
         String cluster = eurekaService.getCluster(httpServletRequest);
-        log.info("home req start defaultZone:{} cluster:{}", defaultZone, cluster);
+        log.info("home req start cluster:{}",  cluster);
 		List<Application> apps = eurekaService.getClusterInfo(cluster);
 		int appCount = apps.size();
 		int nodeCount = 0;
@@ -70,7 +60,7 @@ public class EurekaClientController {
 	@RequestMapping(value = "apps", method = RequestMethod.GET)
 	public ResultMap apps(HttpServletRequest httpServletRequest){
         String cluster = eurekaService.getCluster(httpServletRequest);
-        log.info("apps req start defaultZone:{} cluster:{}", defaultZone, cluster);
+        log.info("apps req start cluster:{}", cluster);
 		List<Application> apps = eurekaService.getClusterInfo(cluster);
 		return ResultMap.buildSuccess().put("list", apps);
 	}
@@ -100,9 +90,10 @@ public class EurekaClientController {
 	//curl -v -X PUT "127.0.0.1:9500/eureka/apps/CLIENT-A/192.168.1.101:client-a:7070/status?value=OUT_OF_SERVICE"
 	@RequestMapping(value = "status/{appName}", method = RequestMethod.POST)
 	public ResultMap servStatus(@PathVariable String appName, String instanceId, String status){
-		log.info("appName:{} instanceId:{} status:{} defaultZone:{}",
-				new Object[] {appName, instanceId, status,defaultZone});
+		log.info("appName:{} instanceId:{} status:{}",
+				new Object[] {appName, instanceId, status});
 
+        String defaultZone = "";
 		//拼凑url
 		String url= defaultZone;
 		String outOfServiceUrl = defaultZone + "apps/%s/%s/status?value=OUT_OF_SERVICE";
