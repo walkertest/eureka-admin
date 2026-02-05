@@ -4,7 +4,7 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml" />
 
     <!--定义日志文件的存储地址和前缀名 -->
-    <property name="LOG_HOME" value="/data2/log/huyapassport/" />
+    <property name="LOG_HOME" value="/data/log/eureka-admin/" />
     <property name="LOG_PREFIX" value="eureka-admin-starter-server" />
     <!-- 控制台 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
