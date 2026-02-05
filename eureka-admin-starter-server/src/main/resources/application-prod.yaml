@@ -11,12 +11,6 @@ eureka:
     serviceUrl:
        defaultZone: http://inner-eureka-gz1.huyaudb.com.local.udb.hy:9500/eureka/
 
-spring:
-     project:
-         name: huyapassport
-     application:
-         name: eureka-admin-serv
-
 logging:
   level:
     com:

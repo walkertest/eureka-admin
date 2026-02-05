@@ -6,7 +6,7 @@
 		<artifactId>eureka-admin</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>eureka-admin-serv</artifactId>
+    <artifactId>eureka-admin-starter-server</artifactId>
 	<packaging>jar</packaging>
 
 	<properties>
