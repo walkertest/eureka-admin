@@ -129,7 +129,8 @@
 
 			document.getElementById('currentCluster').textContent = name;
 			// 关闭下拉菜单
-			$('.am-dropdown').removeClass('am-active');
+			// $('.am-dropdown').removeClass('am-active');
+			$('.am-dropdown').dropdown('close');
 
 			// 判断当前页面是否为 home.html
 			if (window.location.hash.includes('home.html')) {

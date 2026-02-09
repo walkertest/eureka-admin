@@ -149,6 +149,8 @@
 					}
 				}
 				$('#dataList').tmpl($('#listTmpl').html(), data);
+
+				updateAllNames();
 			}
 		});
 	}
@@ -194,6 +196,53 @@
 			});
 		});
 	});
+
+
+	var allNames = [];
+	function updateAllNames() {
+		allNames = [];
+		$('#dataList tr').each(function(){
+			var name = $(this).data('name');
+			if(name && allNames.indexOf(name) === -1){
+				allNames.push(name);
+			}
+		});
+	}
+
+	$('#conditionForm input[name="name"]').on('input', function(){
+		var val = $(this).val();
+		var suggestions = allNames.filter(function(name){
+			return name.indexOf(val) !== -1;
+		});
+		var $list = $('#nameSuggestList');
+		$list.empty();
+		suggestions.forEach(function(name){
+			$list.append('<li>' + name + '</li>');
+		});
+		$list.show();
+	});
+
+	// 防止输入框失焦导致建议列表消失
+	$('#nameSuggestList').on('mousedown', 'li', function(e){
+		e.preventDefault();
+		$('#conditionForm input[name="name"]').val($(this).text());
+		$('#nameSuggestList').hide();
+	});
+
+	// 输入框失焦时隐藏建议列表
+	$('#conditionForm input[name="name"]').on('blur', function(){
+		setTimeout(function(){
+			$('#nameSuggestList').hide();
+		}, 100); // 延迟隐藏，避免点击事件被阻断
+	});
+
+	// HTML建议列表
+	$('body').append('<ul id="nameSuggestList" style="position:absolute;display:none;z-index:999;background:#fff;border:1px solid #ccc;"></ul>');
+	$('#conditionForm input[name="name"]').on('focus', function(){
+		var offset = $(this).offset();
+		$('#nameSuggestList').css({top: offset.top + $(this).outerHeight(), left: offset.left, width: $(this).outerWidth()});
+	});
+
 })();
 </script>
 </body>
