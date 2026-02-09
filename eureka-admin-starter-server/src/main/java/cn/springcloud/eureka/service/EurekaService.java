@@ -35,6 +35,7 @@ public class EurekaService {
         return cluster.get();
     }
 
+
     public List<Application> getClusterInfo(String cluster) {
         List<Application> apps = eurekaClientManagerService.getEurekaClientByCluster(cluster).getApplications().getRegisteredApplications();
         Collections.sort(apps, new Comparator<Application>() {

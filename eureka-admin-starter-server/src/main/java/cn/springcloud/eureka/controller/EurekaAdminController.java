@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cn.springcloud.eureka.service.EurekaClientManagerService;
 import cn.springcloud.eureka.service.EurekaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class EurekaAdminController {
 
     @Autowired
     EurekaService eurekaService;
+
+    @Autowired
+    EurekaClientManagerService eurekaClientManagerService;
 	
 	/**
 	 * @description 获取服务数量和节点数量
@@ -89,15 +93,17 @@ public class EurekaAdminController {
 	//curl -v -X DELETE "127.0.0.1:9500/eureka/apps/CLIENT-A/192.168.1.101:client-a:7070/status?value=UP"
 	//curl -v -X PUT "127.0.0.1:9500/eureka/apps/CLIENT-A/192.168.1.101:client-a:7070/status?value=OUT_OF_SERVICE"
 	@RequestMapping(value = "status/{appName}", method = RequestMethod.POST)
-	public ResultMap servStatus(@PathVariable String appName, String instanceId, String status){
-		log.info("appName:{} instanceId:{} status:{}",
+	public ResultMap servStatus(HttpServletRequest httpServletRequest,
+                                @PathVariable String appName, String instanceId, String status){
+		log.info("修改节点状态，appName:{} instanceId:{} status:{}",
 				new Object[] {appName, instanceId, status});
 
-        String defaultZone = "";
+        String cluster = eurekaService.getCluster(httpServletRequest);
+        String url = eurekaClientManagerService.getEurekaClusterServiceUrlByCluster(cluster);
+        log.info("cluster:{} url:{}", cluster,url);
 		//拼凑url
-		String url= defaultZone;
-		String outOfServiceUrl = defaultZone + "apps/%s/%s/status?value=OUT_OF_SERVICE";
-		String upUrl = defaultZone + "apps/%s/%s/status?value=UP";
+		String outOfServiceUrl = url + "apps/%s/%s/status?value=OUT_OF_SERVICE";
+		String upUrl = url + "apps/%s/%s/status?value=UP";
 
 		if(status.equalsIgnoreCase("UP")) {
 			//curl -v -X DELETE "127.0.0.1:9500/eureka/apps/CLIENT-A/192.168.1.101:client-a:7070/status?value=UP"

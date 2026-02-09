@@ -12,7 +12,8 @@
 # 功能优化
 - 默认界面为管理界面   --done
 - 用url进来之后，读取url hash值，定位到对应tab页面  --done
-- serviceid界面，支持模糊搜索
+- serviceid界面，支持模糊搜索  --doing, 遇到一个数据填入的问题，@zenglongfei
+- 保证摘流量和放流量操作，正确执行 --doing
 - 摘流量和放流量操作前置一下
 - inactive之后，状态刷新页面以及状态值.
 - 导航栏支持自定义显示组织名字.

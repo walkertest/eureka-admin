@@ -230,10 +230,9 @@
 	});
 
 	// 输入框失焦时隐藏建议列表
-	$('#conditionForm input[name="name"]').on('blur', function(){
-		setTimeout(function(){
-			$('#nameSuggestList').hide();
-		}, 100); // 延迟隐藏，避免点击事件被阻断
+	$('#nameSuggestList').on('click', 'li', function(e){
+		$('#conditionForm input[name="name"]').val($(this).text());
+		$('#nameSuggestList').hide();
 	});
 
 	// HTML建议列表

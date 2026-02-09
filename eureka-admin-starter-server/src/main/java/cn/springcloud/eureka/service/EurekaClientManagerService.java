@@ -1,6 +1,7 @@
 package cn.springcloud.eureka.service;
 
-import cn.springcloud.eureka.config.EurekaClientConfig1;
+import cn.springcloud.eureka.config.EurekaClientConfig;
+import cn.springcloud.eureka.model.EurekaClusterConfig;
 import com.netflix.appinfo.ApplicationInfoManager;
 import com.netflix.appinfo.EurekaInstanceConfig;
 import com.netflix.appinfo.InstanceInfo;
@@ -17,12 +18,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @Slf4j
 @Service
 public class EurekaClientManagerService implements InitializingBean {
     @Autowired
-    EurekaClientConfig1 eurekaClientConfig1;
+    EurekaClientConfig eurekaClientConfig;
 
     @Value("${eureka.client.refresh.interval:10}")
     public Integer refreshInterval;
@@ -33,16 +36,23 @@ public class EurekaClientManagerService implements InitializingBean {
     Map<String, EurekaClient> eurekaClientMap = new HashMap<>();
 
 
+    Map<String, EurekaClusterConfig> eurekaClusterConfigMap = new ConcurrentHashMap<>();
+
+
     @Override
     public void afterPropertiesSet() throws Exception {
-        log.info("EurekaClientManagerService afterPropertiesSet start. eurekaCluster size:{}", eurekaClientConfig1.getClusters().size());
-        eurekaClientConfig1.getClusters().forEach(clusterConfig -> {
+        log.info("EurekaClientManagerService afterPropertiesSet start. eurekaCluster size:{}", eurekaClientConfig.getClusters().size());
+        eurekaClientConfig.getClusters().forEach(clusterConfig -> {
             log.info("clusterConfig: {}", clusterConfig);
             EurekaClient eurekaClient = buildEurekaClient(
                     clusterConfig.getServiceUrl(),
                     healthCheckEnable,
                     refreshInterval);
             eurekaClientMap.put(clusterConfig.getName(),eurekaClient);
+        });
+
+        eurekaClientConfig.getClusters().forEach(clusterConfig -> {
+            eurekaClusterConfigMap.put(clusterConfig.getName(), clusterConfig);
         });
     }
 
@@ -61,6 +71,18 @@ public class EurekaClientManagerService implements InitializingBean {
         EurekaClient eurekaClient = initializeEurekaClient(applicationInfoManager, new DefaultEurekaClientConfig());
         log.info("create eurekaclient bean suc.");
         return eurekaClient;
+    }
+
+    public EurekaClusterConfig getEurekaClusterConfigByCluster(String cluster) {
+        return eurekaClusterConfigMap.get(cluster);
+    }
+
+    public String getEurekaClusterServiceUrlByCluster(String cluster) {
+        EurekaClusterConfig clusterConfig = eurekaClusterConfigMap.get(cluster);
+        if(clusterConfig != null) {
+            return clusterConfig.getServiceUrl();
+        }
+        return null;
     }
 
     private static synchronized ApplicationInfoManager initializeApplicationInfoManager(EurekaInstanceConfig instanceConfig) {
