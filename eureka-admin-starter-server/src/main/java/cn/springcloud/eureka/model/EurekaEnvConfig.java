@@ -1,10 +1,9 @@
 package cn.springcloud.eureka.model;
 
-public class EurekaClusterConfig {
+public class EurekaEnvConfig {
     private String name;
     private String chineseName;
-    private String serviceUrl;
-    private String selfadminUrl;
+    private String url;
 
     public String getName() {
         return name;
@@ -22,29 +21,20 @@ public class EurekaClusterConfig {
         this.chineseName = chineseName;
     }
 
-    public String getServiceUrl() {
-        return serviceUrl;
+    public String getUrl() {
+        return url;
     }
 
-    public void setServiceUrl(String serviceUrl) {
-        this.serviceUrl = serviceUrl;
-    }
-
-    public String getSelfadminUrl() {
-        return selfadminUrl;
-    }
-
-    public void setSelfadminUrl(String selfadminUrl) {
-        this.selfadminUrl = selfadminUrl;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
     public String toString() {
-        return "EurekaClusterConfig{" +
+        return "EurekaEnvConfig{" +
                 "name='" + name + '\'' +
                 ", chineseName='" + chineseName + '\'' +
-                ", serviceUrl='" + serviceUrl + '\'' +
-                ", selfadminUrl='" + selfadminUrl + '\'' +
+                ", url='" + url + '\'' +
                 '}';
     }
 }

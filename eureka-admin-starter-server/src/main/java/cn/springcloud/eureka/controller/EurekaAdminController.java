@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cn.springcloud.eureka.config.EurekaClustersConfig;
+import cn.springcloud.eureka.config.EurekaEnvsConfig;
 import cn.springcloud.eureka.model.EurekaApplication;
 import cn.springcloud.eureka.model.EurekaClusterConfig;
 import cn.springcloud.eureka.service.EurekaClientManagerService;
@@ -11,7 +13,6 @@ import cn.springcloud.eureka.service.EurekaService;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -58,7 +59,14 @@ public class EurekaAdminController {
 				}
 			}
 		}
-		return ResultMap.buildSuccess().put("appCount", appCount).put("nodeCount", nodeCount).put("enableNodeCount", enableNodeCount);
+        String sericeUrl = eurekaClientManagerService.getEurekaClusterSelfAdminUrlByCluster(cluster);
+        ResultMap resultMap = ResultMap.buildSuccess()
+                .put("appCount", appCount)
+                .put("nodeCount", nodeCount)
+                .put("enableNodeCount", enableNodeCount)
+                .put("eurekaSelfLink", sericeUrl);
+        log.info("home req end cluster:{} resultMap:{}", cluster, JSON.toJSON(resultMap));
+        return resultMap;
 	}
 	
 	/**
@@ -69,34 +77,11 @@ public class EurekaAdminController {
         String cluster = eurekaService.getCluster(httpServletRequest);
         EurekaClusterConfig eurekaClusterConfig = eurekaClientManagerService.getEurekaClusterConfigByCluster(cluster);
         log.info("apps req start cluster:{} eurekaClusterConfig:{}", cluster, eurekaClusterConfig);
-		List<Application> apps = eurekaService.getClusterInfo(cluster);
-//        log.info("apps req end cluster:{} data:{}", cluster, apps);
-
-        List<EurekaApplication> convertApps = eurekaService.convertApplications(apps);
-		ResultMap resultMap = ResultMap.buildSuccess().put("list", convertApps);
+		List<EurekaApplication> apps = eurekaService.getClusterInfoResult(cluster);
+		ResultMap resultMap = ResultMap.buildSuccess().put("list", apps);
         log.info("apps req end cluster:{} resultMap:{}", cluster, JSON.toJSON(resultMap));
         return resultMap;
 	}
-
-
-    /**
-	 * Take instance out of service	PUT /eureka/v2/apps/appID/instanceID/status?value=OUT_OF_SERVICE	HTTP Code:
-	 * * 200 on success
-	 * * 500 on failure
-	 * DELETE /eureka/v2/apps/appID/instanceID/status?value=UP (The value=UP is optional, it is used as a suggestion for the fallback status due to removal of the override)
-	 * @description 界面请求转到第三方服务进行状态变更
-	 */
-//	@RequestMapping(value = "status/{appName}", method = RequestMethod.POST)
-//	public ResultMap status(@PathVariable String appName, String instanceId, String status){
-//		Application application = eurekaClient.getApplication(appName);
-//		InstanceInfo instanceInfo = application.getByInstanceId(instanceId);
-//		instanceInfo.setStatus(InstanceStatus.toEnum(status));
-//		Map<String, String> headers = new HashMap<>();
-//		headers.put("Content-Type", "text/plain");
-//		HttpUtil.post(instanceInfo.getHomePageUrl() + "service-registry/instance-status", status, headers);
-//
-//		return ResultMap.buildSuccess();
-//	}
 
 
 	//curl -v -X DELETE "127.0.0.1:9500/eureka/apps/CLIENT-A/192.168.1.101:client-a:7070/status?value=UP"
@@ -124,8 +109,49 @@ public class EurekaAdminController {
 			HttpUtil.put(outOfServiceUrl,null,null,null,"UTF-8");
 		}
 
-
-
 		return ResultMap.buildSuccess();
 	}
+
+    /**
+     * @description 获取集群的服务列表
+     */
+    @RequestMapping(value = "getServiceList", method = RequestMethod.GET)
+    public ResultMap getServiceList(HttpServletRequest httpServletRequest) {
+        String cluster = eurekaService.getCluster(httpServletRequest);
+        log.info("getServiceList req start cluster:{}", cluster);
+        List<EurekaApplication> apps = eurekaService.getClusterInfoResult(cluster);
+        List<String> serviceName = new ArrayList<>();
+        apps.forEach((eurekaApplication) -> {
+            serviceName.add(eurekaApplication.getName());
+        });
+
+        log.info("serviceList:{}", serviceName);
+
+        return ResultMap.buildSuccess()
+                .put("serviceList", serviceName);
+    }
+
+    /**
+     * @description 获取集群的服务列表
+     */
+    @RequestMapping(value = "getClusterAndEnvInfo", method = RequestMethod.GET)
+    public ResultMap getClusterAndEnvInfo(HttpServletRequest httpServletRequest) {
+        String cluster = eurekaService.getCluster(httpServletRequest);
+        log.info("getClusterAndEnvInfo req start cluster:{}", cluster);
+
+        //获取集群配置信息，以及env配置信息
+        EurekaClustersConfig eurekaClientConfig = eurekaClientManagerService.getEurekaClientConfig();
+
+        EurekaEnvsConfig eurekaEnvConfig = eurekaClientManagerService.getEurekaEnvsConfig();
+
+        String currentEnv = eurekaClientManagerService.getCurrentEnvName();
+
+        return ResultMap.buildSuccess()
+                .put("clusters", eurekaClientConfig.getClusters())
+                .put("envs", eurekaEnvConfig.getEnvs())
+                .put("currentEnv", currentEnv);
+    }
+
+
+
 }

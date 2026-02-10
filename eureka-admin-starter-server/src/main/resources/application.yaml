@@ -18,3 +18,11 @@ eureka:
   client:
     refresh:
       interval: 1
+
+eureka.envs:
+  - name: test
+    chineseName: 测试
+    url: https://eurekaadmin-test.huya.info
+  - name: prod
+    chineseName: 生产
+    url: https://eurekaadmin.huya.info

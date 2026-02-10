@@ -1,9 +1,7 @@
 package cn.springcloud.eureka.model;
 
 import com.netflix.appinfo.InstanceInfo;
-
 import java.util.List;
-import java.util.Set;
 
 public class EurekaApplication {
     private String name;

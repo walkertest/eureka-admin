@@ -3,7 +3,7 @@
 		<strong class="am-text-primary am-text-lg"> Eureka Admin</strong> / <small>Dashboard</small>
 	</div>
 </div>
-<ul class="am-avg-sm-1 am-avg-md-3 am-margin-xs am-padding-xs am-text-center admin-content-list ">
+<ul class="am-avg-sm-1 am-avg-md-3 am-avg-lg-4 am-margin-xs am-padding-xs am-text-center admin-content-list ">
 	<li>
 		<a href="javascript:void(0);" class="am-text-success">
 			<span class="am-icon-btn am-icon-user"></span><br />
@@ -25,24 +25,20 @@
 			<span id="enableNodeCount" class="countView"></span>
 		</a>
 	</li>
+
+	<li>
+		<a href="https://eureka-udb-test.huya.info/" target="_blank" class="am-text-secondary">
+			<span class="am-icon-btn am-icon-recycle"></span><br />
+			eureka自带链接<br />
+			<span id="eurekaSelfLink" class="countView"></span>
+		</a>
+	</li>
 </ul>
-<div class="am-g">
-	<div class="am-u-md-12 am-padding-xs">
-		<div class="am-panel am-panel-default">
-			<div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-4'}">
-				Messages<span class="am-icon-chevron-down am-fr"></span>
-			</div>
-			<div id="collapse-panel-4" class="am-panel-bd am-collapse am-in">
-				<ul class="am-list admin-content-task">
-					<li>
-						<div class="admin-task-meta">2018-05-07 10:35:23 www.springcloud.cn</div>
-						<div class="admin-task-bd">v1.0.0</div>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+
+<div id="listContainer" class="am-margin-top am-text-left">
+
 </div>
+
 <script>
 (function(){
 	$(function(){
@@ -54,6 +50,31 @@
 				$('.countView').each(function(){
 					$(this).text(data[$(this).attr('id')] || 'empty');
 				});
+
+				// 设置 eurekaSelfLink 跳转链接
+				if (data.eurekaSelfLink) {
+					$('#eurekaSelfLink').parent('a').attr('href', data.eurekaSelfLink);
+				}
+			}
+		});
+	});
+
+	$('.countView').parent('a').eq(0).on('click', function() {
+		$.ajax({
+			url: '/eureka/getServiceList',
+			type: 'get',
+			dataType: 'json',
+			success: function(data) {
+				// 假设 data.list 是数组
+				console.log("data.serviceList:", data.serviceList);
+				// alert(data.serviceList.join('\n')); // 简单弹窗展示
+				// 或者你可以把内容插入到页面某个元素
+				var serviceList = '';
+				data.serviceList.forEach(function(service) {
+					serviceList = serviceList + service + '<br>';
+				});
+				console.log("serviceList"+serviceList);
+				$('#listContainer').html(serviceList); // 将数组转换为字符串并显示在页面上
 			}
 		});
 	});

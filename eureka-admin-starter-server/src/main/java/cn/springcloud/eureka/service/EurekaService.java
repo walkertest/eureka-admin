@@ -53,6 +53,10 @@ public class EurekaService {
         return apps;
     }
 
+    public List<EurekaApplication> getClusterInfoResult(String cluster) {
+        return convertApplications(getClusterInfo(cluster));
+    }
+
     public List<EurekaApplication> convertApplications(List<Application> apps) {
         List<EurekaApplication> result = new ArrayList<>();
         if(apps!=null && !apps.isEmpty()) {

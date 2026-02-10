@@ -8,7 +8,7 @@ import java.util.List;
 
 @Configuration
 @ConfigurationProperties(prefix = "eureka")
-public class EurekaClientConfig {
+public class EurekaClustersConfig {
     List<EurekaClusterConfig> clusters;
 
     public List<EurekaClusterConfig> getClusters() {

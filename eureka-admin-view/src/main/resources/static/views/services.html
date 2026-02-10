@@ -39,8 +39,12 @@
 	<div class="am-text-right">
 		<button type="button" class="am-btn am-btn-primary am-btn-xs am-margin-right-xs" id="filterBtn">Search</button>
 		<button type="button" class="am-btn am-btn-primary am-btn-xs am-margin-right-xs" id="refreshBtn">Refresh</button>
-		<button type="button" class="am-btn am-btn-primary am-btn-xs am-margin-right-xs" id="activeBtn">active</button>
-		<button type="button" class="am-btn am-btn-primary am-btn-xs am-margin-right-xs" id="inactiveBtn">inactive</button>
+		<button type="button" class="am-btn am-btn-primary am-btn-xs am-margin-right-xs"
+				id="activeBtn"
+				style="background-color: green; border-color: green;">active</button>
+		<button type="button" class="am-btn am-btn-primary am-btn-xs am-margin-right-xs"
+				id="inactiveBtn"
+				style="background-color: gray; border-color: gray; ">inactive</button>
 
 		<!--		<button type="reset" class="am-btn am-btn-default am-btn-xs">Reset</button>-->
 	</div>
@@ -164,6 +168,7 @@
 					}
 				}
 				$('#dataList').tmpl($('#listTmpl').html(), data);
+
 
 				updateAllNames();
 			}

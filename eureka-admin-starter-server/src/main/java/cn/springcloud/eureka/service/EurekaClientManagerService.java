@@ -1,6 +1,7 @@
 package cn.springcloud.eureka.service;
 
-import cn.springcloud.eureka.config.EurekaClientConfig;
+import cn.springcloud.eureka.config.EurekaClustersConfig;
+import cn.springcloud.eureka.config.EurekaEnvsConfig;
 import cn.springcloud.eureka.model.EurekaClusterConfig;
 import com.netflix.appinfo.ApplicationInfoManager;
 import com.netflix.appinfo.EurekaInstanceConfig;
@@ -19,13 +20,17 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Service
 public class EurekaClientManagerService implements InitializingBean {
+
+    @Value("${spring.profiles.active:test}")
+    String profile;
+
     @Autowired
-    EurekaClientConfig eurekaClientConfig;
+    EurekaClustersConfig eurekaClientConfig;
 
     @Value("${eureka.client.refresh.interval:10}")
     public Integer refreshInterval;
@@ -37,6 +42,10 @@ public class EurekaClientManagerService implements InitializingBean {
 
 
     Map<String, EurekaClusterConfig> eurekaClusterConfigMap = new ConcurrentHashMap<>();
+
+
+    @Autowired
+    EurekaEnvsConfig eurekaEnvsConfig;
 
 
     @Override
@@ -54,6 +63,25 @@ public class EurekaClientManagerService implements InitializingBean {
         eurekaClientConfig.getClusters().forEach(clusterConfig -> {
             eurekaClusterConfigMap.put(clusterConfig.getName(), clusterConfig);
         });
+    }
+
+    public EurekaClustersConfig getEurekaClientConfig() {
+        return eurekaClientConfig;
+    }
+
+    public EurekaEnvsConfig getEurekaEnvsConfig() {
+        return eurekaEnvsConfig;
+    }
+
+    public String getCurrentEnvName() {
+        AtomicReference<String> env = new AtomicReference<>("");
+        eurekaEnvsConfig.getEnvs().forEach((item) -> {
+            if(item.getName().equalsIgnoreCase(profile)) {
+                log.info("getCurrentProfile: {}", item);
+                env.set(item.getChineseName());
+            }
+        });
+        return env.get();
     }
 
     public EurekaClient getEurekaClientByCluster(String cluster) {
@@ -85,6 +113,14 @@ public class EurekaClientManagerService implements InitializingBean {
         return null;
     }
 
+    public String getEurekaClusterSelfAdminUrlByCluster(String cluster) {
+        EurekaClusterConfig clusterConfig = eurekaClusterConfigMap.get(cluster);
+        if(clusterConfig != null) {
+            return clusterConfig.getSelfadminUrl();
+        }
+        return null;
+    }
+
     private static synchronized ApplicationInfoManager initializeApplicationInfoManager(EurekaInstanceConfig instanceConfig) {
         InstanceInfo instanceInfo = new EurekaConfigBasedInstanceInfoProvider(instanceConfig).get();
 
@@ -94,4 +130,6 @@ public class EurekaClientManagerService implements InitializingBean {
     private synchronized EurekaClient initializeEurekaClient(ApplicationInfoManager applicationInfoManager, com.netflix.discovery.EurekaClientConfig clientConfig) {
         return new DiscoveryClient(applicationInfoManager, clientConfig);
     }
+
+
 }
