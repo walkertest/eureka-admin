@@ -13,32 +13,53 @@
 	<link rel="stylesheet" href="./res/amazeui/css/admin.css" />
 </head>
 <body class="am-text-sm">
-<!--[if lte IE 9]>
-<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
-	以获得更好的体验！</p>
-<![endif]-->
 
-<header class="am-topbar am-text-sm am-margin-bottom-0">
+<header class="am-topbar am-text-sm am-margin-bottom-0" style="background: #222;">
 	<div class="am-topbar-brand">
-		<img alt="" src="./res/img/nav.png" style="margin-top: 10px;"> <small id="companyName"></small>
+		<img alt="" src="./res/img/nav1.png" style="margin-top: 10px;">
+		<span id="companyName" style="color:white">运营平台技术部</span>
 	</div>
 
 	<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}">
 		<span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span>
 	</button>
 
-	<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
-			<li class="am-dropdown" data-am-dropdown>
-				<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-					<span class="am-icon-cog"></span> 集群： <span id="currentCluster" style="margin-left:10px;color:green;"></span> <span class="am-icon-caret-down"></span>
-				</a>
-				<ul class="am-dropdown-content">
-					<li><a href="javascript:void(0);" onclick="selectCluster('zhixu')">秩序测试环境</a></li>
-					<li><a href="javascript:void(0);" onclick="selectCluster('passport')">账号测试环境</a></li>
-				</ul>
-			</li>
-		</ul>
+	<!--		 style="display: flex; margin-right: 10px" -->
+	<div id="selectData" style="display: flex;"
+		 class="am-nav am-nav-pills am-topbar-nav am-topbar-right">
+
+		<div class="am-collapse am-topbar-collapse" id="topbar-cluster">
+			<ul class="am-nav am-nav-pills am-topbar-nav  admin-header-list">
+				<li class="am-dropdown" data-am-dropdown>
+					<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+						<span style="margin-top: 6px; margin-left:10px; display:inline-block; vertical-align:middle; position:relative; top:6px;">集群:</span>
+						<span id="currentCluster" style="margin-top: 6px; margin-left:10px; color:green; display:inline-block; vertical-align:middle; position:relative; top:6px;"></span>
+						<span class="am-icon-caret-down" style="margin-top: 6px; margin-left:10px; display:inline-block; vertical-align:middle; position:relative; top:6px;"></span>
+					</a>
+					<ul class="am-dropdown-content">
+						<li><a href="javascript:void(0);" onclick="selectCluster('zhixu')">秩序测试环境</a></li>
+						<li><a href="javascript:void(0);" onclick="selectCluster('passport')">账号测试环境</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+
+<!--		am-topbar-right-->
+		<div id="topbar-env" class="am-collapse am-topbar-collapse" >
+			<ul class="am-nav am-nav-pills am-topbar-nav admin-header-list">
+				<li class="am-dropdown" data-am-dropdown>
+					<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+						<span style="margin-top: 6px; margin-left:10px; display:inline-block; vertical-align:middle; position:relative; top:6px;">环境</span>
+						<span id="currentEnv" style="margin-top: 6px; margin-left:10px; color:green; display:inline-block; vertical-align:middle; position:relative; top:6px;"></span>
+						<span class="am-icon-caret-down" style="margin-top: 6px; margin-left:10px; display:inline-block; vertical-align:middle; position:relative; top:6px;"></span>
+					</a>
+					<ul class="am-dropdown-content">
+						<li><a href="https://eurekaadmin.test.huya.info/" target="_blank">测试环境</a></li>
+						<li><a href="https://eurekaadmin.huya.info/" target="_blank" >线上环境</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
 	</div>
 </header>
 <div class="admin-main">

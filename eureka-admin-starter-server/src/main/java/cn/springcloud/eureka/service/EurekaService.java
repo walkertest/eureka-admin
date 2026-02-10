@@ -1,6 +1,7 @@
 package cn.springcloud.eureka.service;
 
 import cn.springcloud.eureka.constant.Constants;
+import cn.springcloud.eureka.model.EurekaApplication;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.shared.Application;
 import lombok.extern.slf4j.Slf4j;
@@ -8,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
@@ -23,15 +21,17 @@ public class EurekaService {
 
     public String getCluster(HttpServletRequest httpServletRequest) {
         AtomicReference<String> cluster = new AtomicReference<>("zhixu");
-        Arrays.stream(httpServletRequest.getCookies()).anyMatch((cookie) -> {
-            String cookieName = cookie.getName();
-            if(cookieName.equalsIgnoreCase(Constants.EUREKA_CLUSTER_KEY)) {
-                cluster.set(cookie.getValue());
-                log.info("getCluster from cookie: {}={}", cookieName, cluster);
-                return true;
-            }
-            return false;
-        });
+        if(httpServletRequest.getCookies() != null) {
+            Arrays.stream(httpServletRequest.getCookies()).anyMatch((cookie) -> {
+                String cookieName = cookie.getName();
+                if (cookieName.equalsIgnoreCase(Constants.EUREKA_CLUSTER_KEY)) {
+                    cluster.set(cookie.getValue());
+                    log.info("getCluster from cookie: {}={}", cookieName, cluster);
+                    return true;
+                }
+                return false;
+            });
+        }
         return cluster.get();
     }
 
@@ -51,6 +51,19 @@ public class EurekaService {
             });
         }
         return apps;
+    }
+
+    public List<EurekaApplication> convertApplications(List<Application> apps) {
+        List<EurekaApplication> result = new ArrayList<>();
+        if(apps!=null && !apps.isEmpty()) {
+            apps.forEach((application) -> {
+                EurekaApplication eurekaApplication = new EurekaApplication();
+                eurekaApplication.setName(application.getName());
+                eurekaApplication.setInstance(application.getInstancesAsIsFromEureka());
+                result.add(eurekaApplication);
+            });
+        }
+        return result;
     }
 
 

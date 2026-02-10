@@ -5,8 +5,3 @@ eureka.clusters:
   - name: passport
     chineseName: 通行证集群
     serviceUrl: https://eureka-udb-test.huya.info/eureka/
-
-eureka:
-  client:
-    refresh:
-      interval: 10

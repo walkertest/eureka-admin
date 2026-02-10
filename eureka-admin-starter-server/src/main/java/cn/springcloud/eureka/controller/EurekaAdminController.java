@@ -4,8 +4,10 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cn.springcloud.eureka.model.EurekaApplication;
 import cn.springcloud.eureka.service.EurekaClientManagerService;
 import cn.springcloud.eureka.service.EurekaService;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,7 +68,12 @@ public class EurekaAdminController {
         String cluster = eurekaService.getCluster(httpServletRequest);
         log.info("apps req start cluster:{}", cluster);
 		List<Application> apps = eurekaService.getClusterInfo(cluster);
-		return ResultMap.buildSuccess().put("list", apps);
+//        log.info("apps req end cluster:{} data:{}", cluster, apps);
+
+        List<EurekaApplication> convertApps = eurekaService.convertApplications(apps);
+		ResultMap resultMap = ResultMap.buildSuccess().put("list", convertApps);
+        log.info("apps req end cluster:{} resultMap:{}", cluster, JSON.toJSON(resultMap));
+        return resultMap;
 	}
 
 
