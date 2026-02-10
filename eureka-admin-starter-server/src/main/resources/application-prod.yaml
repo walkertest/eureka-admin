@@ -1,35 +1,7 @@
-server:
-  port: 8082
-
-eureka:
-  server: 
-    eviction-interval-timer-in-ms: 30000
-  client:
-    register-with-eureka: false
-    fetch-registry: true
-    filterOnlyUpInstances: false
-    serviceUrl:
-       defaultZone: http://inner-eureka-gz1.huyaudb.com.local.udb.hy:9500/eureka/
-
-logging:
-  level:
-    com:
-      itopener: DEBUG
-    org:
-      springframework: INFO
-
-
----
-spring.profiles: zh-gz
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://inner-eureka-gz1.huyaudb.com.local.udb.hy:9500/eureka/
-
-
----
-spring.profiles: zh-wx
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://inner-eureka-wx1.huyaudb.com.local.udb.hy:9500/eureka/
+eureka.clusters:
+  - name: zhixu
+    chineseName: 秩序集群
+    serviceUrl: https://zbase-eureka.huya.info//eureka/
+  - name: passport
+    chineseName: 通行证集群
+    serviceUrl: https://inner-eureka-gz3.huya.info/eureka/
