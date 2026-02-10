@@ -1,7 +1,16 @@
+#eureka.clusters:
+#  - name: zhixu
+#    chineseName: 秩序集群
+#    serviceUrl: https://test1-zx-eureka.huya.com/eureka/
+#  - name: passport
+#    chineseName: 通行证集群
+#    serviceUrl: https://eureka-udb-test.huya.info/eureka/
+
+
 eureka.clusters:
   - name: zhixu
     chineseName: 秩序集群
-    serviceUrl: https://test1-zx-eureka.huya.com/eureka/
+    serviceUrl: https://zbase-eureka.huya.info//eureka/
   - name: passport
     chineseName: 通行证集群
-    serviceUrl: https://eureka-udb-test.huya.info/eureka/
+    serviceUrl: https://inner-eureka-gz3.huya.info/eureka/
