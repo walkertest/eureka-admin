@@ -37,8 +37,9 @@
 						<span class="am-icon-caret-down" style="margin-top: 6px; margin-left:10px; display:inline-block; vertical-align:middle; position:relative; top:6px;"></span>
 					</a>
 					<ul class="am-dropdown-content">
-						<li><a href="javascript:void(0);" onclick="selectCluster('zhixu')">秩序测试环境</a></li>
-						<li><a href="javascript:void(0);" onclick="selectCluster('passport')">账号测试环境</a></li>
+						<li><a href="javascript:void(0);" onclick="selectCluster('zhixu')">秩序</a></li>
+						<li><a href="javascript:void(0);" onclick="selectCluster('passport')">账号</a></li>
+						<li><a href="javascript:void(0);" onclick="selectCluster('zhifu')">支付</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -133,8 +134,9 @@
 
 		// 显示当前集群
 		const clusterNames = {
-			zhixu: '秩序测试环境',
-			passport: '账号测试环境'
+			zhixu: '秩序',
+			passport: '账号',
+			zhifu: '支付'
 		};
 		const cluster = getCookie('eureka_cluster');
 		if (cluster && clusterNames[cluster]) {

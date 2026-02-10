@@ -5,6 +5,7 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 
 import cn.springcloud.eureka.model.EurekaApplication;
+import cn.springcloud.eureka.model.EurekaClusterConfig;
 import cn.springcloud.eureka.service.EurekaClientManagerService;
 import cn.springcloud.eureka.service.EurekaService;
 import com.alibaba.fastjson.JSON;
@@ -66,7 +67,8 @@ public class EurekaAdminController {
 	@RequestMapping(value = "apps", method = RequestMethod.GET)
 	public ResultMap apps(HttpServletRequest httpServletRequest){
         String cluster = eurekaService.getCluster(httpServletRequest);
-        log.info("apps req start cluster:{}", cluster);
+        EurekaClusterConfig eurekaClusterConfig = eurekaClientManagerService.getEurekaClusterConfigByCluster(cluster);
+        log.info("apps req start cluster:{} eurekaClusterConfig:{}", cluster, eurekaClusterConfig);
 		List<Application> apps = eurekaService.getClusterInfo(cluster);
 //        log.info("apps req end cluster:{} data:{}", cluster, apps);
 

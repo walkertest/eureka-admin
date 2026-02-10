@@ -17,10 +17,12 @@
 - 摘流量和放流量操作前置一下  --done
 - 获取out of serice的数据状态有问题，json序列号导致的 --done
 - inactive之后，状态刷新页面以及状态值.   --done
-- 支持测试环境和线上环境切换   --todo
+- 支持测试环境和线上环境切换   --done
 - 导航栏支持自定义显示组织名字.   --done
+- 两个eureka的缓存问题   --doing
+- 增加eureka默认查询页面的跳转链接  
 - 支持集群配置化，后端接口返回.
-- 两个eureka的缓存问题
+
 
 # 后续
 - 升级springboot版本&java版本   --todo
