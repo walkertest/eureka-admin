@@ -76,7 +76,7 @@ public class EurekaClientManagerService implements InitializingBean {
     public String getCurrentEnvName() {
         AtomicReference<String> env = new AtomicReference<>("");
         eurekaEnvsConfig.getEnvs().forEach((item) -> {
-            if(item.getName().equalsIgnoreCase(profile)) {
+            if(profile.contains(item.getName())) {
                 log.info("getCurrentProfile: {}", item);
                 env.set(item.getChineseName());
             }
