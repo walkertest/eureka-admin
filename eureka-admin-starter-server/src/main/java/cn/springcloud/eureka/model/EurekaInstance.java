@@ -60,6 +60,7 @@ public class EurekaInstance {
     private String vipAddress;
     private LeaseInfo leaseInfo;
     private Long lastUpdatedTimestamp;
+    private Metadata metadata;
 
     @Override
     public String toString() {

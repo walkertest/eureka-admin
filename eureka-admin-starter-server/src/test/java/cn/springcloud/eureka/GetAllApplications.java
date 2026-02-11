@@ -3,12 +3,9 @@ package cn.springcloud.eureka;
 import cn.springcloud.eureka.http.HttpUtil;
 import cn.springcloud.eureka.model.EurekaApplicationModel;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.netflix.discovery.shared.Application;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-
 import java.util.List;
 
 @Slf4j
