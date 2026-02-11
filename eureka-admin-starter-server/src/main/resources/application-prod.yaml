@@ -2,7 +2,7 @@ eureka.clusters:
   - name: zhixu
     chineseName: 秩序
     serviceUrl: https://zbase-eureka.huya.info/eureka/
-    selfadminUrl: https://zbase-eureka.huya.info/
+    selfadminUrl: https://zbase-eureka.huya.info
   - name: passport
     chineseName: 账号
     serviceUrl: https://inner-eureka-gz3.huya.info/eureka/
