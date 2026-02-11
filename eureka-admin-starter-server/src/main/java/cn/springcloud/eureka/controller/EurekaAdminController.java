@@ -9,6 +9,7 @@ import cn.springcloud.eureka.model.EurekaInstance;
 import cn.springcloud.eureka.service.EurekaClientManagerService;
 import cn.springcloud.eureka.service.EurekaService;
 import com.alibaba.fastjson.JSON;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import cn.springcloud.eureka.ResultMap;
 import cn.springcloud.eureka.http.HttpUtil;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 功能：
