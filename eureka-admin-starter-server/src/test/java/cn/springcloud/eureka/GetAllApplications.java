@@ -1,6 +1,7 @@
 package cn.springcloud.eureka;
 
 import cn.springcloud.eureka.http.HttpUtil;
+import cn.springcloud.eureka.model.EurekaApplicationModel;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -15,7 +16,7 @@ public class GetAllApplications {
 
     @Test
     public void GetAllApplications() {
-        String cluster = "zhixu";
+
         String url = "https://eureka-udb-test.huya.info";
         String urlpath = "/eureka/apps";
         String resultUlr = url + urlpath;
@@ -25,7 +26,7 @@ public class GetAllApplications {
         JSONObject jsonObject = JSON.parseObject(result);
         JSONObject applications = (JSONObject) jsonObject.get("applications");
         String applicationStr = applications.getString("application");;
-        List<Application> apps = JSON.parseObject(applicationStr, new com.alibaba.fastjson.TypeReference<List<Application>>(){});
+        List<EurekaApplicationModel> apps = JSON.parseObject(applicationStr, new com.alibaba.fastjson.TypeReference<List<EurekaApplicationModel>>(){});
         log.info("apps: {}", apps);
     }
 }

@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import cn.springcloud.eureka.config.EurekaClustersConfig;
 import cn.springcloud.eureka.config.EurekaEnvsConfig;
 import cn.springcloud.eureka.model.EurekaApplication;
+import cn.springcloud.eureka.model.EurekaApplicationModel;
 import cn.springcloud.eureka.model.EurekaClusterConfig;
+import cn.springcloud.eureka.model.EurekaInstance;
 import cn.springcloud.eureka.service.EurekaClientManagerService;
 import cn.springcloud.eureka.service.EurekaService;
 import com.alibaba.fastjson.JSON;
@@ -46,15 +48,15 @@ public class EurekaAdminController {
 	public ResultMap home(HttpServletRequest httpServletRequest){
         String cluster = eurekaService.getCluster(httpServletRequest);
         log.info("home req start cluster:{}",  cluster);
-		List<Application> apps = eurekaService.getClusterInfo(cluster);
+		List<EurekaApplicationModel> apps = eurekaService.getClusterInfoV2(cluster);
 		int appCount = apps.size();
 		int nodeCount = 0;
 		int enableNodeCount = 0;
-		for(Application app : apps){
-			nodeCount += app.getInstancesAsIsFromEureka().size();
-			List<InstanceInfo> instances = app.getInstances();
-			for(InstanceInfo instance : instances){
-				if(instance.getStatus().name().equals(InstanceStatus.UP.name())){
+		for(EurekaApplicationModel app : apps){
+			nodeCount += app.getInstance().size();
+			List<EurekaInstance> instances = app.getInstance();
+			for(EurekaInstance instance : instances){
+				if(instance.getStatus().equalsIgnoreCase(InstanceStatus.UP.name())){
 					enableNodeCount ++;
 				}
 			}
@@ -77,7 +79,7 @@ public class EurekaAdminController {
         String cluster = eurekaService.getCluster(httpServletRequest);
         EurekaClusterConfig eurekaClusterConfig = eurekaClientManagerService.getEurekaClusterConfigByCluster(cluster);
         log.info("apps req start cluster:{} eurekaClusterConfig:{}", cluster, eurekaClusterConfig);
-		List<EurekaApplication> apps = eurekaService.getClusterInfoResult(cluster);
+		List<EurekaApplicationModel> apps = eurekaService.getClusterInfoResult(cluster);
 		ResultMap resultMap = ResultMap.buildSuccess().put("list", apps);
         log.info("apps req end cluster:{} resultMap:{}", cluster, JSON.toJSON(resultMap));
         return resultMap;
@@ -119,7 +121,7 @@ public class EurekaAdminController {
     public ResultMap getServiceList(HttpServletRequest httpServletRequest) {
         String cluster = eurekaService.getCluster(httpServletRequest);
         log.info("getServiceList req start cluster:{}", cluster);
-        List<EurekaApplication> apps = eurekaService.getClusterInfoResult(cluster);
+        List<EurekaApplicationModel> apps = eurekaService.getClusterInfoResult(cluster);
         List<String> serviceName = new ArrayList<>();
         apps.forEach((eurekaApplication) -> {
             serviceName.add(eurekaApplication.getName());
