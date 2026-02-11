@@ -31,12 +31,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Source: https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-        </dependency>
+<!--        &lt;!&ndash; Source: https://mvnrepository.com/artifact/javax.servlet/servlet-api &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>javax.servlet</groupId>-->
+<!--            <artifactId>servlet-api</artifactId>-->
+<!--            <version>2.5</version>-->
+<!--        </dependency>-->
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>

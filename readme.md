@@ -1,3 +1,4 @@
+[toc]
 # 介绍
 管理eureka的通用界面
 
@@ -9,6 +10,12 @@
 - 批量摘除节点流量和放节点流量
 - 查询总的服务数量
 - 跳转到eureka自带的管理界面
+
+## 技术关键点
+- springboot 3.4.5
+- jdk25
+- api实现而不是eurkea client(降低依赖更加灵活)
+- 前端框架vue(todo)
 
 # 使用
 - 本地访问：http://127.0.0.1:11111/ 或者：http://eureka-local.huya.info:11111/eurekaindex.html

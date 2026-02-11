@@ -29,7 +29,9 @@
 # 功能优化二期
 - eureka服务器端的缓存问题，改为接口直接获取. --done
 - 添加zone  --done
-- 去除冗余代码  --todo
+- 去除冗余代码  --done
+- springboot 2.7.18 --done
+- springboot 3.4.5&&jdk25
 
 
 # 后续
