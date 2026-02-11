@@ -3,6 +3,7 @@ package cn.springcloud.eureka.model;
 import com.netflix.appinfo.InstanceInfo;
 import java.util.List;
 
+@Deprecated
 public class EurekaApplication {
     private String name;
     private List<InstanceInfo> instance;
