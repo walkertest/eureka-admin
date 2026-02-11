@@ -60,6 +60,7 @@
 			        <th>Status</th>
 			        <th>IP</th>
 			        <th>InstanceId</th>
+					<th>zone</th>
 			        <th>Register Time</th>
 			        <th>Enable Time</th>
 			        <th>Update Time</th>
@@ -92,6 +93,7 @@
 	<td class="">{{ d.list[i].instance[j].status }}</td>
 	<td class="">{{ d.list[i].instance[j].ipAddr }}</td>
 	<td class="">{{ d.list[i].instance[j].instanceId }}</td>
+	<td class="">{{ d.list[i].instance[j].metadata.zone }}</td>
 	<td class="">{{ d.list[i].instance[j].leaseInfo.registrationTimestamp }}</td>
 	<td class="">{{ d.list[i].instance[j].leaseInfo.serviceUpTimestamp }}</td>
 	<td class="">{{ d.list[i].instance[j].lastUpdatedTimestamp }}</td>
