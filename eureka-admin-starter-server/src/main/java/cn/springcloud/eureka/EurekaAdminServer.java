@@ -5,12 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
 
-@EnableEurekaClient
+//@EnableEurekaClient
 @SpringBootApplication
 public class EurekaAdminServer {
 
 	public static void main(String[] args) {
-		System.out.println("test");
 		SpringApplication app = new SpringApplication(EurekaAdminServer.class);
 		SimpleCommandLinePropertySource source = new SimpleCommandLinePropertySource(args);
 		if (!source.containsProperty("spring.profiles.active")
@@ -19,8 +18,7 @@ public class EurekaAdminServer {
 			// SPRING_PROFILES_ACTIVE
 			app.setAdditionalProfiles("dev");// 默认使用开发环境
 		}
-		System.out.println("test1");
+
 		app.run(args);
-		System.out.println("end");
 	}
 }

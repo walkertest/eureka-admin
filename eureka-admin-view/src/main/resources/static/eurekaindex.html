@@ -13,31 +13,56 @@
 	<link rel="stylesheet" href="./res/amazeui/css/admin.css" />
 </head>
 <body class="am-text-sm">
-<!--[if lte IE 9]>
-<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
-  以获得更好的体验！</p>
-<![endif]-->
 
-<header class="am-topbar am-text-sm am-margin-bottom-0">
+<header class="am-topbar am-text-sm am-margin-bottom-0" style="background: #34302d;">
 	<div class="am-topbar-brand">
-		<img alt="" src="./res/img/nav.png" style="margin-top: 10px;"> <small id="companyName"></small>
+		<img alt="" src="res/img/nav.png" style="margin-top: 7px;">
+		<span id="companyName" style="color:white">运营平台技术部</span>
 	</div>
 
 	<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}">
 		<span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span>
 	</button>
 
-	<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
-			<li class="am-dropdown" data-am-dropdown>
-<!-- 				<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;"> 
-					<span class="am-icon-user">&nbsp;</span>Lovnx&nbsp;<span class="am-icon-caret-down"></span>
-				</a>
-				<ul class="am-dropdown-content">
-					<li><a href="javascript:void(0);"><span class="am-icon-power-off"></span> Sign Out</a></li>
-				</ul> -->
-			</li>
-		</ul>
+	<!--		 style="display: flex; margin-right: 10px" -->
+	<div id="selectData" style="display: flex;  background: #34302d;"
+		 class="am-nav am-nav-pills am-topbar-nav am-topbar-right">
+
+<!--		集群-->
+		<div class="am-collapse am-topbar-collapse" id="topbar-cluster">
+			<ul class="am-nav am-nav-pills am-topbar-nav  admin-header-list">
+				<li class="am-dropdown" data-am-dropdown>
+					<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+						<span style="margin-top: 6px; margin-left:10px; display:inline-block; vertical-align:middle; position:relative; top:6px;">集群:</span>
+						<span id="currentCluster" style="margin-top: 6px; margin-left:10px; color:green; display:inline-block; vertical-align:middle; position:relative; top:6px;"></span>
+						<span class="am-icon-caret-down" style="margin-top: 6px; margin-left:10px; display:inline-block; vertical-align:middle; position:relative; top:6px;"></span>
+					</a>
+					<ul class="am-dropdown-content">
+<!--						<li><a href="javascript:void(0);" onclick="selectCluster('zhixu')">秩序</a></li>-->
+<!--						<li><a href="javascript:void(0);" onclick="selectCluster('passport')">账号</a></li>-->
+<!--						<li><a href="javascript:void(0);" onclick="selectCluster('zhifu')">支付</a></li>-->
+					</ul>
+				</li>
+			</ul>
+		</div>
+
+<!--		环境-->
+<!--		am-topbar-right-->
+		<div id="topbar-env" class="am-collapse am-topbar-collapse" >
+			<ul class="am-nav am-nav-pills am-topbar-nav admin-header-list">
+				<li class="am-dropdown" data-am-dropdown>
+					<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+						<span style="margin-top: 6px; margin-left:10px; display:inline-block; vertical-align:middle; position:relative; top:6px;">环境</span>
+						<span id="currentEnv" style="margin-top: 6px; margin-left:10px; color:green; display:inline-block; vertical-align:middle; position:relative; top:6px;"></span>
+						<span class="am-icon-caret-down" style="margin-top: 6px; margin-left:10px; display:inline-block; vertical-align:middle; position:relative; top:6px;"></span>
+					</a>
+					<ul class="am-dropdown-content">
+<!--						<li><a href="https://eurekaadmin.test.huya.info/" target="_blank">测试环境</a></li>-->
+<!--						<li><a href="https://eurekaadmin.huya.info/" target="_blank" >线上环境</a></li>-->
+					</ul>
+				</li>
+			</ul>
+		</div>
 	</div>
 </header>
 <div class="admin-main">
@@ -51,7 +76,7 @@
 		<div class="admin-content-body" id="contentBody"></div>
 		<footer class="admin-content-footer am-text-center" id="footer">
 			<hr class="am-margin-0">
-			<p class="am-padding-left am-margin-xs">©2015-2018 www.springcloud.cn All Rights Reserved</p>
+			<p class="am-padding-left am-margin-xs">©2015-2099 www.springcloud.cn All Rights Reserved</p>
 		</footer>
 	</div>
 	<!-- content end -->
@@ -59,9 +84,9 @@
 <a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
 
 <!--[if lt IE 9]>
-	<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
-	<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-	<script src="./res/amazeui/js/amazeui.ie8polyfill.min.js"></script>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="./res/amazeui/js/amazeui.ie8polyfill.min.js"></script>
 <![endif]-->
 
 <!--[if (gte IE 9)|!(IE)]><!-->
@@ -76,24 +101,27 @@
 <script src="./res/jquery-form/jquery-form-v3.51.0.js"></script>
 <script>
 	(function(){
+
+
 		var menus = [{
 			name: 'Dashboard',
 			icon: 'fa-tachometer',
 			url: 'views/home.html'
 		},{
-			name: 'Service Admin',
+			name: 'ServiceAdmin',
 			icon: 'fa-tachometer',
 			url: 'views/services.html'
 		}];
-		
+
+		//加载sidebar菜单
 		function renderMenu(menus, ele){
 			var li = '<li><a href="javascript:void(0);" data-url="{{url}}"><span class="{{icon}}"></span>{{name}}</a></li>';
 			var liParent = '<li class="admin-parent"><a class="am-cf" data-am-collapse="{target: \'#collapse-nav{{name}}\'}">'
-							+ '<span class="{{icon}}"></span> {{name}}'
-							+ '<span class="am-icon-angle-right am-fr am-margin-right"></span>'
-							+ '</a>'
-							+ '<ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav{{name}}">'
-							+ '</ul></li>';
+					+ '<span class="{{icon}}"></span> {{name}}'
+					+ '<span class="am-icon-angle-right am-fr am-margin-right"></span>'
+					+ '</a>'
+					+ '<ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav{{name}}">'
+					+ '</ul></li>';
 			for(var i=0; i<menus.length; i++){
 				var menu = menus[i];
 				var hasChildren = menu.list && menu.list.length > 0;
@@ -105,7 +133,130 @@
 				}
 			}
 		}
-		
+
+		/**
+		 * 加载页面的时候，展示当前所属的集群描述信息
+		 * @returns {{zhixu: string, passport: string, zhifu: string}}
+		 */
+		function showCurrentCluster() {
+			var clusterName = currentCluster["chineseName"]
+			document.getElementById('currentCluster').textContent = clusterName;
+			console.log("showCurrentCluster:", clusterName);
+
+			document.getElementById('currentEnv').textContent = currentEurekaEnvName;
+			console.log("currentEurekaEnvName:", currentEurekaEnvName);
+		}
+
+		var clusterInfoList;
+		var clusterInfoMap = new Map();
+		var currentCluster;
+		var currentEurekaEnvName;
+		function loadClusterInfoAndEnvInfo() {
+			$.ajax({
+				url: '/eureka/getClusterAndEnvInfo',
+				type: 'get',
+				dataType: 'json',
+				success: function(data) {
+					// 显示集群信息
+					if (data.clusters) {
+						console.log("data.clusters:", data.clusters);
+						clusterInfoList = data.clusters;
+						clusterInfoList.forEach(function(item) {
+							clusterInfoMap.set(item.name, item)
+						});
+						console.log("clusterInfoMap:", clusterInfoMap);
+
+						// 动态渲染 am-dropdown-content
+						var dropdownHtml = '';
+						clusterInfoList.forEach(function(item) {
+							dropdownHtml += '<li><a href="javascript:void(0);" onclick="selectCluster(\'' + item.name + '\')">' + item.chineseName + '</a></li>';
+						});
+						$("#topbar-cluster .am-dropdown-content").html(dropdownHtml);
+					}
+					if(data.currentEnv) {
+						currentEurekaEnvName = data.currentEnv;
+					}
+
+					//动态渲染环境信息
+					if(data.envs) {
+						var envDropdownHtml = '';
+						data.envs.forEach(function(env) {
+							envDropdownHtml += '<li><a href="' + env.url + '" target="_blank">' + env.chineseName + '</a></li>';
+						});
+						$("#topbar-env .am-dropdown-content").html(envDropdownHtml);
+						// 显示当前环境
+						if(currentEurekaEnvName) {
+							document.getElementById('currentEnv').textContent = currentEurekaEnvName;
+						}
+					}
+
+					// 数据加载完成后再执行
+					getCurrentCluster();
+					showCurrentCluster();
+				}
+			});
+		}
+
+		function getCurrentCluster() {
+			const cluster = getCookie('eureka_cluster');
+			if (cluster && clusterInfoMap.has(cluster)) {
+				currentCluster = clusterInfoMap.get(cluster);
+			} else {
+				currentCluster = clusterInfoList[0];
+			}
+		}
+
+		//加载全部eureka集群配置信息，并外显配置
+		loadClusterInfoAndEnvInfo()
+
+		/**
+		 * 选择集群，更新cookie存储，并刷新当前页面
+		 * @param cluster
+		 */
+		function selectCluster(cluster) {
+			const selectCluster = clusterInfoMap.get(cluster);
+			const name = selectCluster["chineseName"];
+			//选择环境之后，更新cookie保存的集群信息，后续默认使用这个环境
+			console.log("选择环境：" + cluster);
+			//帮我把cluster更新进cookie字段中，cookie key为 eureka_cluster
+			setCookie("eureka_cluster", cluster, 1);
+
+			document.getElementById('currentCluster').textContent = name;
+			// 关闭下拉菜单
+			// $('.am-dropdown').removeClass('am-active');
+			$('.am-dropdown').dropdown('close');
+
+			//刷新当前页面
+			// 判断当前页面是否为 home.html
+			if (window.location.hash.includes('home.html')) {
+				$.ajax({
+					url: 'views/home.html',
+					dataType: 'html',
+					cache: false,
+					success: function(data){
+						$('#contentBody').html(data);
+					}
+				});
+			} else {
+				location.reload();
+			}
+		}
+		window.selectCluster = selectCluster;
+
+		function setCookie(name, value) {
+			const Days = 30;
+			const exp = new Date();
+			exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+			var expires = "; expires=" + exp.toUTCString();
+			document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
+		}
+
+		// 读取 cookie 工具函数
+		function getCookie(name) {
+			const arr = document.cookie.match(new RegExp('(^| )' + name + '=([^;]*)(;|$)'));
+			return arr ? decodeURIComponent(arr[2]) : null;
+		}
+
 		//绑定菜单点击事件
 		$('#sidebarList').on('click', 'a[data-url]', function(){
 			var url = $(this).data('url');
@@ -122,8 +273,12 @@
 				}
 			});
 			$('#breadcrumbs').text($(this).text());
+
+			// 设置 hash
+			window.location.hash = url;
 		});
-		
+
+		//页面加载逻辑，加载sidebarList以及功能页
 		$(function(){
 			$('#sidebarList').css('height', $(window).height() - 36);
 			$(window).resize(function() {
@@ -131,8 +286,24 @@
 			});
 			$('#sidebarList').empty();
 			renderMenu(menus);
-			//默认加载第一个菜单页面
- 			$('#sidebarList a[data-url]:first').trigger('click');
+			//默认加载service-admin页面，如果location hash中有地址匹配的话，加载对应的页面
+			if(window.location.hash && window.location.hash.length > 1){
+				var hash = window.location.hash.substring(1);
+				var matched = false;
+				$('#sidebarList a[data-url]').each(function(){
+					if($(this).data('url').includes(hash)){
+						$(this).trigger('click');
+						matched = true;
+						return false;
+					}
+				});
+				if(matched){
+					return ;
+				}
+			}
+			$('#sidebarList a[data-url]').filter(function() {
+				return $(this).text().trim() === 'ServiceAdmin';
+			}).first().trigger('click');
 		});
 	})();
 </script>

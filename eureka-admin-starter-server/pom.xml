@@ -6,12 +6,11 @@
 		<artifactId>eureka-admin</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>eureka-admin-serv</artifactId>
+    <artifactId>eureka-admin-starter-server</artifactId>
 	<packaging>jar</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<fastjson.version>1.2.83</fastjson.version>
 	</properties>
 
 	<dependencies>
@@ -37,6 +36,12 @@
 			<artifactId>lombok</artifactId>
 			<version>1.16.10</version>
 		</dependency>
+
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
 
 		<dependency>
 			<groupId>com.alibaba</groupId>
