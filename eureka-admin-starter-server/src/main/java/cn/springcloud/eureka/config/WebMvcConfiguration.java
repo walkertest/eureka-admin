@@ -8,12 +8,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import cn.springcloud.eureka.interceptors.PerformanceInterceptor;
+//import cn.springcloud.eureka.interceptors.PerformanceInterceptor;
 
 @Configuration
-public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
+public class WebMvcConfiguration implements WebMvcConfigurer {
 	
 	private final Logger logger = LoggerFactory.getLogger(WebMvcConfiguration.class);
 
@@ -25,7 +25,7 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		logger.info("添加拦截器");
-		registry.addInterceptor(new PerformanceInterceptor());
+//		registry.addInterceptor(new PerformanceInterceptor());
 	}
 
 	@Override
