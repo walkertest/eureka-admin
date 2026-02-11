@@ -2,17 +2,12 @@ package cn.springcloud.eureka.service;
 
 import cn.springcloud.eureka.constant.Constants;
 import cn.springcloud.eureka.http.HttpUtil;
-import cn.springcloud.eureka.model.EurekaApplication;
 import cn.springcloud.eureka.model.EurekaApplicationModel;
-import cn.springcloud.eureka.model.EurekaInstance;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.netflix.appinfo.InstanceInfo;
-import com.netflix.discovery.shared.Application;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -46,21 +41,7 @@ public class EurekaService {
 //        return sortAppsResultOld(apps);
 //    }
 
-    private static List<Application> sortAppsResultOld(List<Application> apps) {
-        Collections.sort(apps, new Comparator<Application>() {
-            public int compare(Application l, Application r) {
-                return l.getName().compareTo(r.getName());
-            }
-        });
-        for(Application app : apps){
-            Collections.sort(app.getInstances(), new Comparator<InstanceInfo>() {
-                public int compare(InstanceInfo l, InstanceInfo r) {
-                    return l.getPort() - r.getPort();
-                }
-            });
-        }
-        return apps;
-    }
+
 
     private static List<EurekaApplicationModel> sortAppsResult(List<EurekaApplicationModel> apps) {
         Collections.sort(apps, new Comparator<EurekaApplicationModel>() {
@@ -102,19 +83,6 @@ public class EurekaService {
 
     public List<EurekaApplicationModel> getClusterInfoResult(String cluster) {
         return getClusterInfoV2(cluster);
-    }
-
-    public List<EurekaApplication> convertApplications(List<Application> apps) {
-        List<EurekaApplication> result = new ArrayList<>();
-        if(apps!=null && !apps.isEmpty()) {
-            apps.forEach((application) -> {
-                EurekaApplication eurekaApplication = new EurekaApplication();
-                eurekaApplication.setName(application.getName());
-                eurekaApplication.setInstance(application.getInstancesAsIsFromEureka());
-                result.add(eurekaApplication);
-            });
-        }
-        return result;
     }
 
 

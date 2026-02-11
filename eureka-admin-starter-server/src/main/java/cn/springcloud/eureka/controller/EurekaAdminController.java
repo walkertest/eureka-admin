@@ -1,12 +1,8 @@
 package cn.springcloud.eureka.controller;
 
 import java.util.*;
-
-import javax.servlet.http.HttpServletRequest;
-
 import cn.springcloud.eureka.config.EurekaClustersConfig;
 import cn.springcloud.eureka.config.EurekaEnvsConfig;
-import cn.springcloud.eureka.model.EurekaApplication;
 import cn.springcloud.eureka.model.EurekaApplicationModel;
 import cn.springcloud.eureka.model.EurekaClusterConfig;
 import cn.springcloud.eureka.model.EurekaInstance;
@@ -19,11 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import com.netflix.appinfo.InstanceInfo;
-import com.netflix.appinfo.InstanceInfo.InstanceStatus;
-import com.netflix.discovery.shared.Application;
 import cn.springcloud.eureka.ResultMap;
 import cn.springcloud.eureka.http.HttpUtil;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 功能：
@@ -56,7 +51,7 @@ public class EurekaAdminController {
 			nodeCount += app.getInstance().size();
 			List<EurekaInstance> instances = app.getInstance();
 			for(EurekaInstance instance : instances){
-				if(instance.getStatus().equalsIgnoreCase(InstanceStatus.UP.name())){
+				if(instance.getStatus().equalsIgnoreCase("UP")){
 					enableNodeCount ++;
 				}
 			}
