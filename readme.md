@@ -11,6 +11,10 @@
 
 # 使用
 - 本地访问：http://127.0.0.1:11111/ 或者：http://eureka-local.huya.info:11111/eurekaindex.html
-- 测试环境：eurekaadmin-test.huya.info
-- 线上环境：eurekaadmin.huya.info
+- 测试环境：https://eurekaadmin.test.huya.info
+- 线上环境：https://eurekaadmin.huya.info
+
+# 参考
+- eureka server库：https://github.com/Netflix/eureka
+- api:https://github.com/Netflix/eureka/wiki/Eureka-REST-operations
 

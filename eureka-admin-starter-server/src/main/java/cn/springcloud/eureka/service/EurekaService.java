@@ -1,7 +1,10 @@
 package cn.springcloud.eureka.service;
 
 import cn.springcloud.eureka.constant.Constants;
+import cn.springcloud.eureka.http.HttpUtil;
 import cn.springcloud.eureka.model.EurekaApplication;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.shared.Application;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +41,10 @@ public class EurekaService {
 
     public List<Application> getClusterInfo(String cluster) {
         List<Application> apps = eurekaClientManagerService.getEurekaClientByCluster(cluster).getApplications().getRegisteredApplications();
+        return sortAppsResult(apps);
+    }
+
+    private static List<Application> sortAppsResult(List<Application> apps) {
         Collections.sort(apps, new Comparator<Application>() {
             public int compare(Application l, Application r) {
                 return l.getName().compareTo(r.getName());
@@ -53,8 +60,29 @@ public class EurekaService {
         return apps;
     }
 
+    /**
+     * 通过api，自己请求
+     * @param cluster
+     * @return
+     */
+    public List<Application> getClusterInfoV2(String cluster) {
+        String url = eurekaClientManagerService.getEurekaClusterSelfAdminUrlByCluster(cluster);
+        String urlpath = "/eureka/apps";
+        String resultUlr = url + urlpath;
+        String result = HttpUtil.get(resultUlr);
+        log.info("result: {}", result);
+
+        JSONObject jsonObject = JSON.parseObject(result);
+        JSONObject applications = (JSONObject) jsonObject.get("applications");
+        String applicationStr = applications.getString("application");;
+        List<Application> apps = JSON.parseObject(applicationStr, new com.alibaba.fastjson.TypeReference<List<Application>>(){});
+        log.info("apps: {}", apps);
+        return sortAppsResult(apps);
+    }
+
+
     public List<EurekaApplication> getClusterInfoResult(String cluster) {
-        return convertApplications(getClusterInfo(cluster));
+        return convertApplications(getClusterInfoV2(cluster));
     }
 
     public List<EurekaApplication> convertApplications(List<Application> apps) {
