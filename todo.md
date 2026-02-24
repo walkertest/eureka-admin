@@ -31,9 +31,12 @@
 - 添加zone  --done
 - 去除冗余代码  --done
 - springboot 2.7.18 --done
-- springboot 3.4.5&&jdk25
+- springboot 3.4.5&&jdk25   --done
 
+# 功能优化三期
+- 前端使用vue框架重写页面 --todo
+- 整理成开源服务代码 --todo
+- 分享技术博客 --todo
 
 # 后续
-- 升级springboot版本&java版本   --todo
 - taf服务部署   --todo
