@@ -1,4 +1,19 @@
-[toc]
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [项目背景](#%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF)
+- [简单使用](#%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8)
+- [交互流程](#%E4%BA%A4%E4%BA%92%E6%B5%81%E7%A8%8B)
+  - [技术关键点](#%E6%8A%80%E6%9C%AF%E5%85%B3%E9%94%AE%E7%82%B9)
+- [具体使用](#%E5%85%B7%E4%BD%93%E4%BD%BF%E7%94%A8)
+  - [访问地址](#%E8%AE%BF%E9%97%AE%E5%9C%B0%E5%9D%80)
+  - [部署](#%E9%83%A8%E7%BD%B2)
+- [参考](#%E5%8F%82%E8%80%83)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
 # 项目背景
 - eureka是一个springcloud较为通用流行的服务注册发现中心
 - eureka目前仅仅配套了查询页面，没有配套摘除节点流量和放节点流量的功能
