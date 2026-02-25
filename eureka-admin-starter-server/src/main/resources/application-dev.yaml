@@ -1,10 +1,44 @@
+#eureka.clusters:
+#  - name: zhixu
+#    chineseName: 秩序
+#    serviceUrl: https://test1-zx-eureka.huya.com/eureka/
+#    selfadminUrl: https://test1-zx-eureka.huya.com
+#  - name: passport
+#    chineseName: 账号
+#    serviceUrl: https://eureka-udb-test.huya.info/eureka/
+#    selfadminUrl: https://eureka-udb-test.huya.info
+#  - name: passportsg
+#    chineseName: 账号海外
+#    serviceUrl: https://udb-inner-ek2-hw-test.huya.info/eureka/
+#    selfadminUrl: https://udb-inner-ek2-hw-test.huya.info
+#  - name: zhifu
+#    chineseName: 支付
+#    serviceUrl: http://paygate-eureka-test.local.pay.hy:8101/eureka/
+#    selfadminUrl: http://paygate-eureka-test.local.pay.hy:8101
+#  - name: zhifusg
+#    chineseName: 支付海外
+#    serviceUrl: http://paygate-sg-eureka-test.local.pay.hy:8101/eureka/
+#    selfadminUrl: http://paygate-sg-eureka-test.local.pay.hy:8101
+
+
 eureka.clusters:
   - name: zhixu
     chineseName: 秩序
-    serviceUrl: your eureka url
-    selfadminUrl: eureka self admin url
+    serviceUrl: https://zbase-eureka.huya.info/eureka/
+    selfadminUrl: https://zbase-eureka.huya.info
   - name: passport
     chineseName: 账号
-    serviceUrl: your eureka url
-    selfadminUrl: eureka self admin url
-
+    serviceUrl: https://inner-eureka-gz3.huya.info/eureka/
+    selfadminUrl: https://inner-eureka-gz3.huya.info
+  - name: passportsg
+    chineseName: 账号海外
+    serviceUrl: https://udb-inner-ek2-hw.huya.info/eureka/
+    selfadminUrl: https://udb-inner-ek2-hw.huya.info
+  - name: zhifu
+    chineseName: 支付
+    serviceUrl: http://paygate-sz-eureka.local.pay.hy:8101/eureka/
+    selfadminUrl: http://paygate-sz-eureka.local.pay.hy:8101
+  - name: zhifusg
+    chineseName: 支付海外
+    serviceUrl: http://paygate-eureka-new-sg-1.huya.info/eureka/
+    selfadminUrl: http://paygate-eureka-new-sg-1.huya.info

@@ -2,10 +2,17 @@ server:
   port: 11111
 
 spring:
-     project:
-         name: eureka
-     application:
-         name: eureka-admin--starter-server
+  project:
+    name: huyapassport
+  application:
+    name: eureka-admin--starter-server
+
+logging:
+  level:
+    com:
+      itopener: DEBUG
+    org:
+      springframework: INFO
 
 eureka:
   client:
@@ -15,7 +22,7 @@ eureka:
 eureka.envs:
   - name: test
     chineseName: 测试
-    url: yourUrl
+    url: https://eurekaadmin.test.huya.info
   - name: prod
     chineseName: 生产
-    url: yourUrl
+    url: https://eurekaadmin.huya.info
