@@ -3,16 +3,9 @@ server:
 
 spring:
      project:
-         name: huyapassport
+         name: eureka
      application:
          name: eureka-admin--starter-server
-
-logging:
-  level:
-    com:
-      itopener: DEBUG
-    org:
-      springframework: INFO
 
 eureka:
   client:
@@ -22,7 +15,7 @@ eureka:
 eureka.envs:
   - name: test
     chineseName: 测试
-    url: https://eurekaadmin.test.huya.info
+    url: yourUrl
   - name: prod
     chineseName: 生产
-    url: https://eurekaadmin.huya.info
+    url: yourUrl

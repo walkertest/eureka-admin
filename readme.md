@@ -32,9 +32,7 @@
 
 # 具体使用
 ## 访问地址
-- 本地访问：http://127.0.0.1:11111/ 或者：http://eureka-local.huya.info:11111/eurekaindex.html
-- 测试环境：https://eurekaadmin.test.huya.info
-- 线上环境：https://eurekaadmin.huya.info
+- 本地访问：http://127.0.0.1:11111/ 或者：http://eureka-local.com:11111/eurekaindex.html
 
 ## 部署
 - 运行jar包即可
