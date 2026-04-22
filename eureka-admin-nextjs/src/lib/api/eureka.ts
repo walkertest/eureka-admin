@@ -24,10 +24,14 @@ export const eurekaApi = {
     instanceId: string,
     status: 'UP' | 'OUT_OF_SERVICE'
   ) => {
-    const response = await apiClient.post(`/status/${appName}`, {
-      instanceId,
-      status,
-    });
+    const body = new URLSearchParams({ instanceId, status });
+    const response = await apiClient.post(
+      `/status/${appName}`,
+      body, 
+      {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      }
+      );
     return response.data;
   },
 
