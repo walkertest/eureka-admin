@@ -84,12 +84,29 @@ export default function ServicesPage() {
   // 前端筛选 (使用防抖后的filters提升性能)
   const filteredData = useMemo(() => {
     return flattenedData.filter((row) => {
-      if (debouncedFilters.name && row.appName !== debouncedFilters.name) return false;
-      if (debouncedFilters.ip && row.ipAddr !== debouncedFilters.ip) return false;
-      if (debouncedFilters.status && row.status !== debouncedFilters.status) return false;
-      return true;
+      //如果没有过滤条件，就显示全部
+      if (debouncedFilters.name === '' && debouncedFilters.ip === '' && debouncedFilters.status === '') {
+        return true;
+      } else {
+        let nameMatch = true
+        let ipMatch = true
+        let statusMatch = true
+        if (debouncedFilters.name && row.appName !== debouncedFilters.name)
+          nameMatch = false;
+        if (debouncedFilters.ip && row.ipAddr !== debouncedFilters.ip)
+          ipMatch = false;
+        if (debouncedFilters.status) {
+          if(debouncedFilters.status === "ALL") {
+            statusMatch = true;
+          } else if (row.status !== debouncedFilters.status) {
+            statusMatch = false;
+          }
+        }
+        return nameMatch && ipMatch && statusMatch;
+      }
     });
   }, [flattenedData, debouncedFilters]);
+
 
   // 批量操作
   const handleBulkOperation = (operation: 'active' | 'inactive') => {
