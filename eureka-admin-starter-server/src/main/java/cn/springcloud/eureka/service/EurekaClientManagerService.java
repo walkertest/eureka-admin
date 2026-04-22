@@ -3,11 +3,16 @@ package cn.springcloud.eureka.service;
 import cn.springcloud.eureka.config.EurekaClustersConfig;
 import cn.springcloud.eureka.config.EurekaEnvsConfig;
 import cn.springcloud.eureka.model.EurekaClusterConfig;
+import cn.springcloud.eureka.model.EurekaEnvConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
@@ -16,20 +21,14 @@ import java.util.concurrent.atomic.AtomicReference;
 @Service
 public class EurekaClientManagerService implements InitializingBean {
 
+    @Autowired
+    private Environment environment;
+
     @Value("${spring.profiles.active:test}")
     String profile;
 
     @Autowired
     EurekaClustersConfig eurekaClientConfig;
-
-//    @Value("${eureka.client.refresh.interval:10}")
-//    public Integer refreshInterval;
-//
-//    @Value("${eureka.healthcheck.enabled:true}")
-//    public Boolean healthCheckEnable;
-
-//    Map<String, EurekaClient> eurekaClientMap = new HashMap<>();
-
 
     Map<String, EurekaClusterConfig> eurekaClusterConfigMap = new ConcurrentHashMap<>();
 
@@ -41,14 +40,6 @@ public class EurekaClientManagerService implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         log.info("EurekaClientManagerService afterPropertiesSet start. eurekaCluster size:{}", eurekaClientConfig.getClusters().size());
-//        eurekaClientConfig.getClusters().forEach(clusterConfig -> {
-//            log.info("clusterConfig: {}", clusterConfig);
-//            EurekaClient eurekaClient = buildEurekaClient(
-//                    clusterConfig.getServiceUrl(),
-//                    healthCheckEnable,
-//                    refreshInterval);
-//            eurekaClientMap.put(clusterConfig.getName(),eurekaClient);
-//        });
 
         eurekaClientConfig.getClusters().forEach(clusterConfig -> {
             eurekaClusterConfigMap.put(clusterConfig.getName(), clusterConfig);
@@ -64,13 +55,22 @@ public class EurekaClientManagerService implements InitializingBean {
     }
 
     public String getCurrentEnvName() {
+        // 获取所有激活的 Profile
+        String[] activeProfiles = environment.getActiveProfiles();
+        String profileStr = "";
+        for (String p : activeProfiles) {
+            profileStr = profileStr + p + ",";
+        }
+        log.info("getCurrentProfile activeProfiles:{} profile:{}", profileStr, profile);
         AtomicReference<String> env = new AtomicReference<>("");
-        eurekaEnvsConfig.getEnvs().forEach((item) -> {
-            if(profile.contains(item.getName())) {
+        List<EurekaEnvConfig> list = eurekaEnvsConfig.getEnvs();
+        for(EurekaEnvConfig item : list) {
+            if(profileStr.contains(item.getName())) {
                 log.info("getCurrentProfile: {}", item);
                 env.set(item.getChineseName());
+                break;
             }
-        });
+        }
         return env.get();
     }
 
