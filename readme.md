@@ -43,18 +43,20 @@
 
 ## 技术关键点
 - springboot 3.4.5  && jdk25
-- api实现而不是eurkea client(降低依赖更加灵活)
+- api实现而不是eurkea client(降低依赖更加灵活，解决一些多集群的查询问题)
 - 配置化实现多集群的选择能力
-- 前端框架vue(todo)
+- 前端框架：nextjs/react/npm/nodejs
 
 # 具体使用
 ## 访问地址
-- 本地访问：http://127.0.0.1:11111/ 或者：http://eureka-local.com:11111/eurekaindex.html
+- 本地访问：http://127.0.0.1:11112
 
 ## 部署
+### 后端部署
+- 配置好使用业务方自己的eureka集群配置
+- 配置区分测试环境和线上环境
 - 运行jar包即可
-- 带上环境配置
-- 配置中，替换为自己的eureka配置即可.
+
 
 # 参考
 - eureka server库：https://github.com/Netflix/eureka
