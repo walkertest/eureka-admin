@@ -57,6 +57,12 @@
 - 配置区分测试环境和线上环境
 - 运行jar包即可
 
+### 前端部署
+- cd eureka-admin-nextjs
+- npm install
+- npm run build
+- npm run dev/ npm run start即可
+
 
 # 参考
 - eureka server库：https://github.com/Netflix/eureka
