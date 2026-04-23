@@ -7,8 +7,6 @@
   
   	<modules>
         <module>eureka-admin-starter-server</module>
-		<module>eureka-admin-view</module>
-		<module>eureka-admin-utils</module>
 	</modules>
 
     <parent>

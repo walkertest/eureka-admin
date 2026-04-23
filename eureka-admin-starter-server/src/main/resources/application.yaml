@@ -20,6 +20,9 @@ eureka:
       interval: 1
 
 eureka.envs:
+  - name: dev
+    chineseName: 开发
+    url: https://eurekaadmin.test.huya.info
   - name: test
     chineseName: 测试
     url: https://eurekaadmin.test.huya.info
