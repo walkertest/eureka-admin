@@ -7,8 +7,8 @@ import { LayoutDashboard, Server, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const menuItems = [
-  { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
   { name: 'ServiceAdmin', icon: Server, href: '/services' },
+  { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
 ];
 
 interface SidebarProps {
