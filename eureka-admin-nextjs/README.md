@@ -1,3 +1,30 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Eureka Admin - Next.js Frontend](#eureka-admin---nextjs-frontend)
+  - [项目简介](#%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B)
+    - [技术栈](#%E6%8A%80%E6%9C%AF%E6%A0%88)
+    - [核心功能](#%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD)
+  - [快速开始](#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B)
+    - [前置要求](#%E5%89%8D%E7%BD%AE%E8%A6%81%E6%B1%82)
+    - [开发环境](#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83)
+    - [生产构建](#%E7%94%9F%E4%BA%A7%E6%9E%84%E5%BB%BA)
+  - [项目结构](#%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84)
+  - [Maven 集成](#maven-%E9%9B%86%E6%88%90)
+  - [开发指南](#%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97)
+    - [添加新页面](#%E6%B7%BB%E5%8A%A0%E6%96%B0%E9%A1%B5%E9%9D%A2)
+    - [添加新 API 调用](#%E6%B7%BB%E5%8A%A0%E6%96%B0-api-%E8%B0%83%E7%94%A8)
+    - [添加新 UI 组件](#%E6%B7%BB%E5%8A%A0%E6%96%B0-ui-%E7%BB%84%E4%BB%B6)
+  - [可用脚本](#%E5%8F%AF%E7%94%A8%E8%84%9A%E6%9C%AC)
+  - [路由](#%E8%B7%AF%E7%94%B1)
+  - [API 端点](#api-%E7%AB%AF%E7%82%B9)
+  - [性能](#%E6%80%A7%E8%83%BD)
+  - [相关文档](#%E7%9B%B8%E5%85%B3%E6%96%87%E6%A1%A3)
+  - [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Eureka Admin - Next.js Frontend
 
 这是 Eureka Admin 项目的现代化前端重写，使用 [Next.js 16](https://nextjs.org) + TypeScript + Tailwind CSS 构建。

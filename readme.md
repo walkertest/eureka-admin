@@ -9,6 +9,8 @@
 - [具体使用](#%E5%85%B7%E4%BD%93%E4%BD%BF%E7%94%A8)
   - [访问地址](#%E8%AE%BF%E9%97%AE%E5%9C%B0%E5%9D%80)
   - [部署](#%E9%83%A8%E7%BD%B2)
+    - [后端部署](#%E5%90%8E%E7%AB%AF%E9%83%A8%E7%BD%B2)
+    - [前端部署](#%E5%89%8D%E7%AB%AF%E9%83%A8%E7%BD%B2)
 - [参考](#%E5%8F%82%E8%80%83)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
